@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id('order_id');
             $table->foreignId('customer_id')->constrained('customers', 'customer_id');
+            $table->string('order_number')->unique();
             $table->enum('order_type', ['dine_in', 'delivery', 'reservation']);
             $table->foreignId('table_id')->nullable()->constrained('tables', 'table_id');
             $table->text('customer_address')->nullable();
