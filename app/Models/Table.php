@@ -21,4 +21,8 @@ class Table extends Model
     public function orders() {
         return $this->hasMany(Order::class, 'table_id', 'table_id');
     }
+
+    public function queues() {
+        return $this->hasMany(TableQueue::class, 'table_id', 'table_id');
+    }
 }
