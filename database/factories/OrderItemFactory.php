@@ -25,7 +25,7 @@ class OrderItemFactory extends Factory
             'quantity'            => $this->faker->numberBetween(1, 10),
             'price_each_at_transaction'=> $this->faker->numberBetween(5000, 50000),
             'total_price'         => function (array $attributes) {
-                return $attributes['quantity'] * $attributes['price_at_transaction'];
+                return $attributes['quantity'] * $attributes['price_each_at_transaction'];
             },
             'notes'               => $this->faker->optional()->sentence(),
             'status'              => $this->faker->randomElement(['preparing', 'served']),

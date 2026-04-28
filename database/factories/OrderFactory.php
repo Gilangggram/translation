@@ -23,6 +23,7 @@ class OrderFactory extends Factory
         return [
             'customer_id'       => Customer::factory(),
             'order_type'        => $this->faker->randomElement(['dine_in', 'delivery']),
+            'order_number'      => $this->faker->unique()->numerify('DP-########'),
             'table_id'          => Table::factory(),
             'customer_address'  => $this->faker->optional()->address(),
             'total_price'       => $this->faker->numberBetween(10000, 500000),

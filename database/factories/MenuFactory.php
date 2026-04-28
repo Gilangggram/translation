@@ -22,7 +22,7 @@ class MenuFactory extends Factory
             'stall_id' => Stall::factory(),
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
-            'image'       => $this->faker->imageUrl(),
+            'image_path'       => $this->faker->imageUrl(),
             'price'       => $this->faker->numberBetween(5000, 50000),
             'is_available'=> $this->faker->boolean(),
         ];
