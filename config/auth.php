@@ -42,7 +42,7 @@ return [
             'driver'   => 'session',
             'provider' => 'admin_accounts',
         ],
-        'stall_owner' => [
+        'stall' => [
             'driver'   => 'session',
             'provider' => 'stall_accounts',
         ],
