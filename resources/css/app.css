@@ -9,6 +9,22 @@
 @theme {
     --font-noto-serif: 'Noto Serif', serif;
     --font-manrope: 'Manrope', sans-serif;
+
+    --color-primary: #C5AB80;
+    --color-secondary: #532E1C;
+    --color-tertiary: #9FADC7;
+    --color-neutral: #7B7672;
+    --color-dark: #1A1C1C;
+    --color-white: #FFFFFF;
+
+    --color-landing-bg: #F0E8DF;
+    --color-landing-bg-alpha: rgba(240, 232, 223, 0.85);
+    --color-landing-surface: #E6DDD3;
+
+    --color-delivery-bg: #E8E0D8;
+    --color-delivery-surface: #E6DDD3;
+    --color-delivery-card: #F5EFE8;
+    --color-delivery-border: #E0D6CA;
 }
 
 @font-face {

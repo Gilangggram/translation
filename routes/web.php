@@ -4,6 +4,13 @@ use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StallAuthController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    return view('landing');
+})->name('landing');
+
+Route::get('/delivery', function () {
+    return view('delivery');
+})->name('delivery');
 
 Route::controller(AdminAuthController::class)->group(function () {
     Route::get('/admin/login', 'showLoginForm')->name('admin.login');
