@@ -40,7 +40,7 @@
     </section>
 
     <section class="hidden xl:flex flex-col items-center justify-center bg-[#F3F4F6]">
-        <img src="{{ asset('images/logo/de-pallet logo.svg') }}" alt="De Pallet">
+        <img src="{{ asset('images/logo/de-pallet.svg') }}" alt="De Pallet">
     </section>
 </div>
 @endsection
