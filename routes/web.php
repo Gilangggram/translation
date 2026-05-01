@@ -5,14 +5,14 @@ use App\Http\Controllers\Auth\StallAuthController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::controller(AdminAuthController::class)->group(function () {
-    Route::get('/admin/login', 'showLoginForm')->name('admin.login');
-    Route::post('/admin/login', 'login')->name('admin.login.post');
-    Route::post('/admin/logout', 'logout')->name('admin.logout');
+Route::controller(AdminAuthController::class)->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', 'index')->name('login');
+    Route::post('/login', 'login')->name('login.post');
+    Route::post('/logout', 'logout')->name('logout');
 }); 
 
-Route::controller(StallAuthController::class)->group(function () {
-    Route::get('/stall/login', 'showLoginForm')->name('stall.login');
-    Route::post('/stall/login', 'login')->name('stall.login.post');
-    Route::post('/stall/logout', 'logout')->name('stall.logout');
+Route::controller(StallAuthController::class)->prefix('stall')->name('stall.')->group(function () {
+    Route::get('/login', 'index')->name('login');
+    Route::post('/login', 'login')->name('login.post');
+    Route::post('/logout', 'logout')->name('logout');
 });

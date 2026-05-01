@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class StallAuthController extends Controller
 {
-    public function showLoginForm() {
+    public function index() {
         return view('auth.stall-login');
     }
 
