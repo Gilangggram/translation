@@ -12,6 +12,7 @@
 @theme {
     --font-noto-serif: 'Noto Serif', serif;
     --font-manrope: 'Manrope', sans-serif;
+    --font-abril-fatface: 'Abril Fatface', cursive;
 }
 
 @font-face {
@@ -26,6 +27,12 @@
     font-family: 'Manrope';
     src: url('../fonts/Manrope-VariableFont_wght.ttf') format('truetype');
     font-weight: 200 800;
+}
+
+@font-face {
+    font-family: 'Abril Fatface';
+    src: url('../fonts/AbrilFatface-Regular.ttf') format('truetype');
+    font-weight: 400;
 }
 
 
