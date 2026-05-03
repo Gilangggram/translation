@@ -5,14 +5,22 @@ use App\Http\Controllers\Auth\StallAuthController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::controller(AdminAuthController::class)->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', 'index')->name('login');
-    Route::post('/login', 'login')->name('login.post');
-    Route::post('/logout', 'logout')->name('logout');
+Route::middleware('guest:admin')->group(function () {
+    Route::controller(AdminAuthController::class)->prefix('admin')->name('admin')->group(function () {
+        Route::get('/login', 'index')->name('.login');
+        Route::post('/login', 'login')->name('.login.post');
+        Route::post('/logout', 'logout')->name('.logout');
+    }); 
+});
+
+Route::middleware(['auth:admin', 'owner'])->prefix('owner')->name('owner')->group(function () {
+    Route::controller(DashboardController::class)->name('.dashboard')->group(function () {
+        Route::get('/dashboard', 'index');
+    }); 
 }); 
 
-Route::controller(StallAuthController::class)->prefix('stall')->name('stall.')->group(function () {
-    Route::get('/login', 'index')->name('login');
-    Route::post('/login', 'login')->name('login.post');
-    Route::post('/logout', 'logout')->name('logout');
+Route::controller(StallAuthController::class)->prefix('stall')->name('stall')->group(function () {
+    Route::get('/login', 'index')->name('.login');
+    Route::post('/login', 'login')->name('.login.post');
+    Route::post('/logout', 'logout')->name('.logout');
 });

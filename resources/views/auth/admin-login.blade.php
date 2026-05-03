@@ -16,13 +16,23 @@
                     @csrf
     
                     <div class="w-full flex flex-col items-center gap-5">
-                        <div class="w-full max-w-75 flex flex-col gap-3 items-start">
+
+                        @error('login')
+                            <div class="w-full max-w-75 bg-[#F9B1B1] border border-[#AD1614] p-2 rounded-md">
+                                <p class="font-manrope text-[#AD1614] text-sm">{{ $message }}</p>
+                            </div>
+                        @enderror
+
+                        <div class="w-full max-w-75 flex flex-col gap-1 items-start">
                             <label for="phone-number" class="font-manrope font-bold text-sm text-center text-[#532E1C]">Nomor Telepon</label>
                             <input id="phone-number" name="phone_number" type="tel" autocomplete="tel" value="{{ old('phone_number') }}" required 
                                 class="w-full bg-[#F0E7D8] border-2 border-[#532E1C] rounded-sm outline-none py-0 px-1 text-[#532E1C] focus:bg-[#E0D2BB]">
+                            @error('phone_number')
+                                <p class="text-sm text-[#AD1614]">{{ $message }}</p>
+                            @enderror
                         </div>
         
-                        <div class="w-full max-w-75 flex flex-col gap-3 items-start">
+                        <div class="w-full max-w-75 flex flex-col gap-1 items-start">
                             <label for="password" class="font-manrope font-bold text-sm text-center text-[#532E1C]">Password</label>
                             <div class="w-full relative">
                                 <input id="password" name="password" type="password" autocomplete="current-password" required 
@@ -31,6 +41,9 @@
                                     <i id="eye-icon" class="bi bi-eye text-[#F0E7D8]"></i>
                                 </button>
                             </div>
+                            @error('password')
+                                <p class="text-sm text-[#AD1614]">{{ $message }}</p>
+                            @enderror
                         </div>  
                     </div>
     

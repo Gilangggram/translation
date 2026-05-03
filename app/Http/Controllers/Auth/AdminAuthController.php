@@ -21,8 +21,8 @@ class AdminAuthController extends Controller
             $request->session()->regenerate();
             
             return match(Auth::guard('admin')->user()->role) {
-                'admin' => redirect()->route('admin.dashboard'),
-                'kasir' => redirect()->route('kasir.dashboard'),
+                'owner' => redirect()->route('owner.dashboard'),
+                'cashier' => redirect()->route('cashier.dashboard'),
             };
         } 
         
