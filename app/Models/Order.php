@@ -21,6 +21,7 @@ class Order extends Model
         'total_price',
         'payment_status',
         'payment_proof',
+        'is_completed',
         'validated_by',
         'validated_at',
     ];
