@@ -25,6 +25,24 @@
     --color-delivery-surface: #E6DDD3;
     --color-delivery-card: #F5EFE8;
     --color-delivery-border: #E0D6CA;
+
+    --animate-float-badge: floatBadge 3s ease-in-out infinite;
+    --animate-fade-up: fadeUp 0.5s ease both;
+    --animate-fade-up-fast: fadeUp 0.3s ease both;
+    --animate-slide-right: slideRight 0.5s ease 0.2s both;
+
+    @keyframes floatBadge {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+    }
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideRight {
+        from { opacity: 0; transform: translateX(30px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
 }
 
 @font-face {
@@ -45,5 +63,23 @@
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
     display: none;
+}
 
+@utility scrollbar-hide {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@utility animate-target {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+
+    &.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -12,6 +12,14 @@ Route::get('/delivery', function () {
     return view('delivery');
 })->name('delivery');
 
+Route::get('/reservation', function () {
+    return view('reservation');
+})->name('reservation');
+
+Route::get('/dinein', function () {
+    return view('dinein');
+})->name('dinein');
+
 Route::controller(AdminAuthController::class)->group(function () {
     Route::get('/admin/login', 'showLoginForm')->name('admin.login');
     Route::post('/admin/login', 'login')->name('admin.login.post');

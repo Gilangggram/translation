@@ -8,51 +8,40 @@
         content="De Pallet Cafe - Modern cafe dengan sistem pemesanan digital. Pesan makanan, reservasi tempat, hingga pembayaran langsung dari genggamanmu.">
     <title>De Pallet Cafe - Modern Cafe</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        .animate-target {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-
-        .animate-target.animate-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @keyframes floatBadge {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
-    </style>
 </head>
 
 <body class="font-manrope bg-landing-bg text-dark overflow-x-hidden">
-    <nav class="fixed top-0 left-0 right-0 z-[100] bg-landing-bg-alpha backdrop-blur-md h-[72px]" id="top-navigation">
+    <nav class="fixed top-0 left-0 right-0 z-[100] bg-white/80 backdrop-blur-md shadow-[0_8px_32px_rgba(26,28,28,0.04)] h-[72px]" id="top-navigation">
         <div class="max-w-[1536px] mx-auto flex items-center justify-between px-8 py-4 h-[72px]">
-            <div class="font-noto-serif font-black text-2xl leading-8 tracking-[-0.6px] text-dark whitespace-nowrap">De Pallet Cafe</div>
+            <div class="font-noto-serif font-black text-2xl leading-8 tracking-[-0.6px] text-dark whitespace-nowrap">De'Pallet Cafe</div>
             <div class="hidden md:flex items-center gap-0">
-                <a href="#" class="font-manrope font-bold text-secondary border-b-2 border-secondary pb-0 text-base leading-6 tracking-[-0.4px] px-5 transition-colors duration-300" id="nav-home">Home</a>
-                <a href="{{ route('delivery') }}" class="font-manrope font-medium text-base leading-6 tracking-[-0.4px] text-neutral px-5 transition-colors duration-300 hover:text-secondary" id="nav-delivery">Delivery</a>
-                <a href="#" class="font-manrope font-medium text-base leading-6 tracking-[-0.4px] text-neutral px-5 transition-colors duration-300 hover:text-secondary" id="nav-reservation">Reservation</a>
-                <a href="#" class="font-manrope font-medium text-base leading-6 tracking-[-0.4px] text-neutral px-5 transition-colors duration-300 hover:text-secondary" id="nav-dinein">Dine-In</a>
+                <a href="{{ route('landing') }}" class="font-manrope {{ request()->routeIs('landing') ? 'font-bold text-secondary border-b-2 border-secondary pb-0' : 'font-medium text-neutral hover:text-secondary' }} text-base leading-6 tracking-[-0.4px] px-5 transition-colors duration-300" id="nav-home">Home</a>
+                <a href="{{ route('delivery') }}" class="font-manrope {{ request()->routeIs('delivery') ? 'font-bold text-secondary border-b-2 border-secondary pb-0' : 'font-medium text-neutral hover:text-secondary' }} text-base leading-6 tracking-[-0.4px] px-5 transition-colors duration-300" id="nav-delivery">Delivery</a>
+                <a href="{{ route('reservation') }}" class="font-manrope {{ request()->routeIs('reservation') ? 'font-bold text-secondary border-b-2 border-secondary pb-0' : 'font-medium text-neutral hover:text-secondary' }} text-base leading-6 tracking-[-0.4px] px-5 transition-colors duration-300" id="nav-reservation">Reservation</a>
+                <a href="{{ route('dinein') }}" class="font-manrope {{ request()->routeIs('dinein') ? 'font-bold text-secondary border-b-2 border-secondary pb-0' : 'font-medium text-neutral hover:text-secondary' }} text-base leading-6 tracking-[-0.4px] px-5 transition-colors duration-300" id="nav-dinein">Dine-In</a>
             </div>
-            <div class="hidden md:flex items-center gap-4">
-                <a href="{{ route('admin.login') }}" class="font-manrope font-bold text-base leading-6 text-secondary px-6 py-2 rounded-md transition-colors duration-300 hover:bg-[rgba(83,46,28,0.08)]" id="btn-signin">Sign In</a>
-                <a href="#" class="font-manrope font-bold text-base leading-6 text-white px-6 py-2 bg-gradient-to-r from-secondary to-primary rounded-md shadow-[0_32px_64px_-12px_rgba(26,28,28,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_36px_70px_-12px_rgba(26,28,28,0.14)]" id="btn-order-nav">Order</a>
+            <div class="hidden md:flex items-center">
+                <div class="flex items-center gap-3 px-4 py-2 bg-secondary/5 rounded-full border border-secondary/10">
+                    <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-white">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <span class="font-manrope font-bold text-sm text-secondary">Guest</span>
+                </div>
             </div>
             <button class="md:hidden bg-transparent border-none text-2xl text-dark cursor-pointer" id="nav-mobile-toggle" aria-label="Toggle menu">
                 <i class="bi bi-list"></i>
             </button>
         </div>
-        <div class="hidden flex-col bg-[rgba(240,232,223,0.98)] backdrop-blur-md px-8 py-4 pb-6 gap-3" id="nav-mobile-menu">
-            <a href="#" class="font-manrope font-bold text-secondary border-b-2 border-secondary pb-0 text-base leading-6 tracking-[-0.4px] px-5">Home</a>
-            <a href="{{ route('delivery') }}" class="font-manrope font-medium text-base leading-6 tracking-[-0.4px] text-neutral px-5">Delivery</a>
-            <a href="#" class="font-manrope font-medium text-base leading-6 tracking-[-0.4px] text-neutral px-5">Reservation</a>
-            <a href="#" class="font-manrope font-medium text-base leading-6 tracking-[-0.4px] text-neutral px-5">Dine-In</a>
-            <div class="flex gap-3 mt-2 px-5">
-                <a href="{{ route('admin.login') }}" class="font-manrope font-bold text-base leading-6 text-secondary py-2 rounded-md transition-colors duration-300 hover:bg-[rgba(83,46,28,0.08)]">Sign In</a>
-                <a href="#" class="font-manrope font-bold text-base leading-6 text-white px-6 py-2 bg-gradient-to-r from-secondary to-primary rounded-md shadow-[0_32px_64px_-12px_rgba(26,28,28,0.08)] transition-all duration-300">Order</a>
+        <div class="hidden flex-col bg-white/95 backdrop-blur-md px-8 py-4 pb-6 gap-3 shadow-md absolute w-full top-[72px]" id="nav-mobile-menu">
+            <a href="{{ route('landing') }}" class="font-manrope {{ request()->routeIs('landing') ? 'font-bold text-secondary border-b-2 border-secondary pb-0' : 'font-medium text-neutral hover:text-secondary' }} text-base leading-6 tracking-[-0.4px] px-5">Home</a>
+            <a href="{{ route('delivery') }}" class="font-manrope {{ request()->routeIs('delivery') ? 'font-bold text-secondary border-b-2 border-secondary pb-0' : 'font-medium text-neutral hover:text-secondary' }} text-base leading-6 tracking-[-0.4px] px-5">Delivery</a>
+            <a href="{{ route('reservation') }}" class="font-manrope {{ request()->routeIs('reservation') ? 'font-bold text-secondary border-b-2 border-secondary pb-0' : 'font-medium text-neutral hover:text-secondary' }} text-base leading-6 tracking-[-0.4px] px-5">Reservation</a>
+            <a href="{{ route('dinein') }}" class="font-manrope {{ request()->routeIs('dinein') ? 'font-bold text-secondary border-b-2 border-secondary pb-0' : 'font-medium text-neutral hover:text-secondary' }} text-base leading-6 tracking-[-0.4px] px-5">Dine-In</a>
+            <div class="flex items-center gap-3 px-5 py-2 mt-2 bg-secondary/5 rounded-full border border-secondary/10 mx-5">
+                <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-white">
+                    <i class="bi bi-person"></i>
+                </div>
+                <span class="font-manrope font-bold text-sm text-secondary">Guest</span>
             </div>
         </div>
     </nav>
