@@ -33,31 +33,4 @@ class Menu extends Model
     public function menuLogs() {
         return $this->hasMany(MenuLog::class, 'menu_id', 'menu_id');
     }
-
-    protected static function booted() {
-        static::created(function ($menu) {
-            MenuLog::create([
-                'menu_id' => $menu->menu_id,
-                'action' => 'created',
-                'new_data' => $menu->toJson(),
-            ]);
-        });
-
-        static::updated(function ($menu) {
-            MenuLog::create([
-                'menu_id' => $menu->menu_id,
-                'action' => 'updated',
-                'old_data' => json_encode($menu->getOriginal()),
-                'new_data' => $menu->toJson(),
-            ]);
-        });
-
-        static::deleted(function ($menu) {
-            MenuLog::create([
-                'menu_id' => $menu->menu_id,
-                'action' => 'deleted',
-                'old_data' => $menu->toJson(),
-            ]);
-        });
-    }
 }
