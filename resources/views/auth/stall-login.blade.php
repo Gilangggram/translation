@@ -3,57 +3,83 @@
 @section('title', 'Stall Login')
 
 @section('body')
-    <div class="h-screen grid xl:grid-cols-[640px_1fr] grid-cols-1">
-            
-        <div class="flex flex-col items-center justify-center gap-16 bg-[#F0E7D8] xl:border-r-2 border-[#532E1C]">
-            <div>
-                <h1 class="font-noto-serif font-bold text-2xl text-center text-[#532E1C]">LOGIN</h1>
-                <p class="font-manrope text-base text-center text-[#532E1C]">Masuk untuk akses sistem kios / stall</p>
+<div class="h-screen flex flex-col justify-center items-center bg-[#F9F3EA]">
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_1fr] w-full sm:max-w-120 xl:max-w-240 h-full sm:h-150 overflow-hidden rounded-xs">
+    
+        <div class="hidden xl:flex flex-col items-center justify-center relative">
+            <img src="{{ asset('images/background/photo.png') }}" alt="De Pallet" class="w-full h-150 object-cover">
+            <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
+
+            <div class="absolute bottom-10 left-10">
+                <h1 class="font-abril-fatface text-4xl text-white">De'Pallet Cafe</h1>
+                <p class="font-manrope text-base text-[#F9F3EA]">
+                    Login Sistem <strong class="font-semibold">Stall</strong>
+                </p>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center justify-center gap-10 bg-white">
+            <div class="flex flex-col w-full max-w-75 gap-1">
+                <h2 class="font-noto-serif font-bold text-xl text-start text-[#532E1C]">LOGIN</h2>
+                <p class="font-manrope text-sm text-start ">
+                    @if ($errors->has('login'))
+                        <span class="text-[#AD1614]"><i class="bi bi-exclamation-triangle-fill pe-2"></i>{{ $errors->first('login') }}</span>
+                    @else
+                        <span class="text-[#532E1C]">Silahkan isi data diri untuk akses sistem</span>
+                    @endif
+                </p>            
             </div>
 
             <div class="w-full">
-                <form method="POST" action="{{ route('admin.login.post') }}" class="flex flex-col items-center gap-16">
+                <form method="POST" action="{{ route('stall.login.post') }}" class="flex flex-col items-center gap-10">
                     @csrf
     
                     <div class="w-full flex flex-col items-center gap-5">
 
-                        @error('login')
-                            <div class="w-full max-w-75 bg-[#F9B1B1] border border-[#AD1614] p-2 rounded-md">
-                                <p class="font-manrope text-[#AD1614] text-sm">{{ $message }}</p>
+                        <div class="w-full max-w-75 flex flex-col gap-2 items-start">
+                            <label for="phone-number" class="font-manrope text-xs font-semibold tracking-wide text-center text-[#532E1C]">NOMOR TELEPON</label>
+                            <div class="w-full relative">
+                                <input id="phone-number" name="phone_number" type="tel" autocomplete="tel" value="{{ old('phone_number') }}" required 
+                                    class="w-full bg-[#F5F2F0] border-none rounded-xs outline-none py-1 px-1 text-[#532E1C] text-sm focus:bg-[#E2E2E2]">
+                                
+                                @if ($errors->has('phone_number'))
+                                    <div class="absolute bottom-0 h-0.5 w-full bg-[#AD1614] rounded-b-xs"></div>
+                                @else
+                                    <div class="absolute bottom-0 h-0.5 w-full bg-[#532E1C] rounded-b-xs"></div>
+                                @endif
                             </div>
-                        @enderror
 
-                        <div class="w-full max-w-75 flex flex-col gap-1 items-start">
-                            <label for="phone-number" class="font-manrope font-bold text-sm text-center text-[#532E1C]">Nomor Telepon</label>
-                            <input id="phone-number" name="phone_number" type="tel" autocomplete="tel" value="{{ old('phone_number') }}" required 
-                                class="w-full bg-[#F0E7D8] border-2 border-[#532E1C] rounded-sm outline-none py-0 px-1 text-[#532E1C] focus:bg-[#E0D2BB]">
                             @error('phone_number')
-                                <p class="text-sm text-[#AD1614]">{{ $message }}</p>
+                                <p class="text-sm -mt-1 text-[#AD1614]"><i class="bi bi-exclamation-circle text-xs me-1"></i>{{ $message }}</p>
                             @enderror
                         </div>
         
-                        <div class="w-full max-w-75 flex flex-col gap-1 items-start">
-                            <label for="password" class="font-manrope font-bold text-sm text-center text-[#532E1C]">Password</label>
+                        <div class="w-full max-w-75 flex flex-col gap-2 items-start">
+                            <label for="password" class="font-manrope text-xs font-semibold tracking-wide text-center text-[#532E1C]">PASSWORD</label>
                             <div class="w-full relative">
                                 <input id="password" name="password" type="password" autocomplete="current-password" required 
-                                    class="w-full bg-[#F0E7D8]  border-2 border-[#532E1C] rounded-sm outline-none py-0 px-1 pe-9 text-[#532E1C] focus:bg-[#E0D2BB]">
-                                <button type="button" id="toggle-password" class="hidden absolute right-0 h-full bg-[#532E1C] px-2 rounded-e-sm">
+                                    class="w-full bg-[#F5F2F0] border-none rounded-xs outline-none py-1 px-1 pe-9 text-[#532E1C] text-sm focus:bg-[#E2E2E2]">
+                                <button type="button" id="toggle-password" class="hidden absolute right-0 h-full bg-[#532E1C] px-2 rounded-e-xs z-30">
                                     <i id="eye-icon" class="bi bi-eye text-[#F0E7D8]"></i>
                                 </button>
+
+                                @if ($errors->has('password'))
+                                    <div class="absolute bottom-0 h-0.5 w-full bg-[#AD1614] rounded-b-xs"></div>
+                                @else
+                                    <div class="absolute bottom-0 h-0.5 w-full bg-[#532E1C] rounded-b-xs"></div>
+                                @endif
                             </div>
+                            
                             @error('password')
-                                <p class="text-sm text-[#AD1614]">{{ $message }}</p>
+                                <p class="text-sm -mt-1 text-[#AD1614]"><i class="bi bi-exclamation-circle text-xs me-1"></i>{{ $message }}</p>
                             @enderror
                         </div>  
                     </div>
     
-                    <button type="submit" class="font-noto-serif text-sm text-[#E6E6E6] w-full bg-[#442313] max-w-50 py-1.5 rounded-sm">Login</button>
+                    <button type="submit" class="font-noto-serif text-sm text-white w-full bg-[#442313] max-w-75 py-2 rounded-xs">Login</button>
                 </form>
             </div>
         </div>
-
-        <div class="hidden xl:flex flex-col items-center justify-center bg-white">
-            <img src="{{ asset('images/logo/de-pallet.svg') }}" alt="De Pallet">
-        </div>
     </div>
+</div>
 @endsection

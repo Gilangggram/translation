@@ -31,7 +31,7 @@ class LoginRequest extends FormRequest
     public function messages():array {
         return [
             'phone_number.required' => 'Nomor telepon wajib diisi.',
-            'phone_number.digits_between' => 'Nomor telepon harus antara 8 hingga 15 digit.',
+            'phone_number.digits_between' => 'Nomor telepon harus antara 8 - 15 digit.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal harus 6 karakter.',
         ];
