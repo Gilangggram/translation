@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();
             $table->decimal('price', 10, 2);
+            $table->boolean('is_chef_favorite')->default(false);
             $table->boolean('is_available')->default(true);
             $table->timestamps();
             $table->softDeletes();

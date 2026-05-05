@@ -19,6 +19,7 @@ class Menu extends Model
         'description',
         'image',
         'price',
+        'is_chef_favorite',
         'is_available',
     ];
 
