@@ -3,8 +3,8 @@
 @section('title', 'Admin Login')
 
 @section('body')
-    <div class="h-screen flex flex-col justify-center items-center bg-[#F9F3EA]">
-        <div class="grid grid-cols-1 xl:grid-cols-[1fr_1fr] w-full sm:max-w-120 xl:max-w-240 h-full sm:h-150 overflow-hidden rounded-lg">
+    <div class="h-screen flex flex-col justify-center items-center bg-[#F0E7D8] ">
+        <div class="grid grid-cols-1 xl:grid-cols-[1fr_1fr] w-full sm:max-w-120 xl:max-w-240 h-full sm:h-150 overflow-hidden rounded-lg border border-[#E0D2BB]">
         
             <div class="hidden xl:flex flex-col items-center justify-center relative">
                 <img src="{{ asset('images/background/photo.png') }}" alt="De Pallet" class="w-full h-150 object-cover">
@@ -38,7 +38,7 @@
     
                             <div class="w-full max-w-75 flex flex-col gap-2 items-start">
                                 <label for="phone-number" class="font-manrope text-xs font-semibold tracking-wide text-center text-[#532E1C]">NOMOR TELEPON</label>
-                                <div class="w-full relative  rounded-sm overflow-hidden">
+                                <div class="w-full relative rounded-sm overflow-hidden">
                                     <input id="phone-number" name="phone_number" type="tel" autocomplete="tel" value="{{ old('phone_number') }}" required 
                                         class="w-full bg-[#F5F2F0] border-none rounded-sm outline-none py-1.5 px-1 text-[#532E1C] text-sm focus:bg-[#E2E2E2]">
                                     
