@@ -4,7 +4,7 @@
 
 @section('body')
     <div class="h-screen flex flex-col justify-center items-center bg-[#F9F3EA]">
-        <div class="grid grid-cols-1 xl:grid-cols-[1fr_1fr] w-full sm:max-w-120 xl:max-w-240 h-full sm:h-150 overflow-hidden rounded-xs">
+        <div class="grid grid-cols-1 xl:grid-cols-[1fr_1fr] w-full sm:max-w-120 xl:max-w-240 h-full sm:h-150 overflow-hidden rounded-lg">
         
             <div class="hidden xl:flex flex-col items-center justify-center relative">
                 <img src="{{ asset('images/background/photo.png') }}" alt="De Pallet" class="w-full h-150 object-cover">
@@ -38,14 +38,14 @@
     
                             <div class="w-full max-w-75 flex flex-col gap-2 items-start">
                                 <label for="phone-number" class="font-manrope text-xs font-semibold tracking-wide text-center text-[#532E1C]">NOMOR TELEPON</label>
-                                <div class="w-full relative">
+                                <div class="w-full relative  rounded-sm overflow-hidden">
                                     <input id="phone-number" name="phone_number" type="tel" autocomplete="tel" value="{{ old('phone_number') }}" required 
-                                        class="w-full bg-[#F5F2F0] border-none rounded-xs outline-none py-1 px-1 text-[#532E1C] text-sm focus:bg-[#E2E2E2]">
+                                        class="w-full bg-[#F5F2F0] border-none rounded-sm outline-none py-1.5 px-1 text-[#532E1C] text-sm focus:bg-[#E2E2E2]">
                                     
                                     @if ($errors->has('phone_number'))
-                                        <div class="absolute bottom-0 h-0.5 w-full bg-[#AD1614] rounded-b-xs"></div>
+                                        <div class="absolute bottom-0 h-0.5 w-full bg-[#AD1614]"></div>
                                     @else
-                                        <div class="absolute bottom-0 h-0.5 w-full bg-[#532E1C] rounded-b-xs"></div>
+                                        <div class="absolute bottom-0 h-0.5 w-full bg-[#532E1C]"></div>
                                     @endif
                                 </div>
 
@@ -56,17 +56,17 @@
             
                             <div class="w-full max-w-75 flex flex-col gap-2 items-start">
                                 <label for="password" class="font-manrope text-xs font-semibold tracking-wide text-center text-[#532E1C]">PASSWORD</label>
-                                <div class="w-full relative">
+                                <div class="w-full relative rounded-sm overflow-hidden">
                                     <input id="password" name="password" type="password" autocomplete="current-password" required 
-                                        class="w-full bg-[#F5F2F0] border-none rounded-xs outline-none py-1 px-1 pe-9 text-[#532E1C] text-sm focus:bg-[#E2E2E2]">
-                                    <button type="button" id="toggle-password" class="hidden absolute right-0 h-full bg-[#532E1C] px-2 rounded-e-xs z-30">
+                                        class="w-full bg-[#F5F2F0] border-none rounded-sm outline-none py-1.5 px-1 pe-9 text-[#532E1C] text-sm focus:bg-[#E2E2E2]">
+                                    <button type="button" id="toggle-password" class="hidden absolute right-0 h-full bg-[#532E1C] px-2 rounded-e-sm z-30">
                                         <i id="eye-icon" class="bi bi-eye text-[#F0E7D8]"></i>
                                     </button>
 
                                     @if ($errors->has('password'))
-                                        <div class="absolute bottom-0 h-0.5 w-full bg-[#AD1614] rounded-b-xs"></div>
+                                        <div class="absolute bottom-0 h-0.5 w-full bg-[#AD1614]"></div>
                                     @else
-                                        <div class="absolute bottom-0 h-0.5 w-full bg-[#532E1C] rounded-b-xs"></div>
+                                        <div class="absolute bottom-0 h-0.5 w-full bg-[#532E1C]"></div>
                                     @endif
                                 </div>
                                 
@@ -76,7 +76,7 @@
                             </div>  
                         </div>
         
-                        <button type="submit" class="font-noto-serif text-sm text-white w-full bg-[#442313] max-w-75 py-2 rounded-xs">Login</button>
+                        <button type="submit" class="font-noto-serif text-sm text-white w-full bg-[#442313] max-w-75 py-2 rounded-sm">Login</button>
                     </form>
                 </div>
             </div>
