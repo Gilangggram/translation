@@ -7,7 +7,7 @@
         <div class="grid grid-cols-1 xl:grid-cols-[1fr_1fr] w-full sm:max-w-120 xl:max-w-240 h-full sm:h-150 overflow-hidden rounded-lg border border-[#E0D2BB]">
         
             <div class="hidden xl:flex flex-col items-center justify-center relative">
-                <img src="{{ asset('images/background/photo.png') }}" alt="De Pallet" class="w-full h-150 object-cover">
+                <img src="{{ asset('images/background/login-bg.png') }}" alt="De Pallet" class="w-full h-150 object-cover">
                 <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
 
                 <div class="absolute bottom-10 left-10">
