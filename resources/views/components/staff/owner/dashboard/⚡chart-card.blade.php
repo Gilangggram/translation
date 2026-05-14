@@ -72,7 +72,7 @@ new class extends Component {
                     type="button"
                     wire:click="setTimeframe('{{ $val }}')"
                     @disabled($timeframe === $val)
-                    class="font-manrope text-xs px-2.5 py-0.5 rounded-xs
+                    class="font-manrope text-xs px-2 py-0.5 rounded-xs
                         {{ $timeframe === $val
                             ? 'text-white  bg-[#532E1C]'
                             : 'text-[#2C180F] hover:bg-[#D2C2BC] cursor-pointer' }}">
