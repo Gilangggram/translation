@@ -13,6 +13,8 @@
     --font-noto-serif: 'Noto Serif', serif;
     --font-manrope: 'Manrope', sans-serif;
     --font-abril-fatface: 'Abril Fatface', cursive;
+
+    --color-dark-backdrop: #000000;
 }
 
 @font-face {

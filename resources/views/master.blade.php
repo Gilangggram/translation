@@ -7,12 +7,12 @@
         <title>{{ config('app.name') }} | @yield('title')</title>
         <link rel="icon" href="{{ asset('images/logo/de-pallet.svg') }}" type="image/png">
         
-        @vite(['resources/css/app.css', 'resources/js/app.js'])    
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireStyles    
     </head>
     <body>
-
         @yield('body')
-        
-        @stack('scripts')
+
+        @livewireScripts
     </body>
 </html>

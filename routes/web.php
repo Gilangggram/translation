@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\StallAuthController;
+use App\Livewire\Staff\Owner\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,9 +15,7 @@ Route::middleware('guest:admin')->group(function () {
 });
 
 Route::middleware(['auth:admin', 'owner'])->prefix('owner')->name('owner')->group(function () {
-    Route::controller(DashboardController::class)->name('.dashboard')->group(function () {
-        Route::get('/dashboard', 'index');
-    }); 
+    Route::get('/dashboard', Dashboard::class)->name('.dashboard');
 }); 
 
 Route::controller(StallAuthController::class)->prefix('stall')->name('stall')->group(function () {
