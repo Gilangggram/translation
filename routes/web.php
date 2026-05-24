@@ -16,6 +16,7 @@ Route::middleware('guest:admin')->group(function () {
 
 Route::middleware(['auth:admin', 'owner'])->prefix('owner')->name('owner')->group(function () {
     Route::get('/dashboard', Dashboard::class)->name('.dashboard');
+    Route::get('/sales-report', SalesReport::class)->name('.sales-report');
 }); 
 
 Route::controller(StallAuthController::class)->prefix('stall')->name('stall')->group(function () {
