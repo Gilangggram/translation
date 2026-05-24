@@ -6,7 +6,7 @@ use App\Models\Stall;
 
 class StallService {
 
-    public function getActiveStallsSum(): int {  
+    public function getStallsCount(): int {  
         return Stall::count();
     }
 

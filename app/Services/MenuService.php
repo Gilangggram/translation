@@ -6,7 +6,7 @@ use App\Models\Menu;
 
 class MenuService {
 
-    public function getAllMenusSum(): int {  
+    public function getMenusCount(): int {  
         return Menu::count();
     }
 

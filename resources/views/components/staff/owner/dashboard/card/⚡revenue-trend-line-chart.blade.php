@@ -1,18 +1,13 @@
 <?php
 
+use App\Services\RevenueService;
 use Livewire\Component;
-use Livewire\Attributes\Locked;
 
 new class extends Component {
-
-    #[Locked] public string $serviceClass;
-    #[Locked] public string $serviceFunction;
 
     public string $title;
     public string $subTitle;
     public string $timeframe;
-    public string $chartType;
-    public string $chartAxis;
     public array  $chartData;
 
     public array $timeframes = [
@@ -24,19 +19,11 @@ new class extends Component {
     public function mount(
         string $title,
         string $subTitle,
-        string $serviceClass,
-        string $serviceFunction,
-        string $chartAxis,
         string $defaultTimeframe,
-        string $chartType,
     ): void {
         $this->title           = $title;
         $this->subTitle        = $subTitle;
-        $this->chartAxis       = $chartAxis;
-        $this->serviceClass    = $serviceClass;
-        $this->serviceFunction = $serviceFunction;
         $this->timeframe       = $defaultTimeframe;
-        $this->chartType       = $chartType;
         $this->fetchData();
     }
 
@@ -48,15 +35,15 @@ new class extends Component {
 
     private function fetchData(): void
     {
-        $service = app($this->serviceClass);
-        $this->chartData = $service->{$this->serviceFunction}($this->timeframe);
-        $this->dispatch('chartDataUpdated', data: $this->chartData, type: $this->chartType);
+        $service = app(RevenueService::class);
+        $this->chartData = $service->getCafeRevenueTrend($this->timeframe);
+        $this->dispatch('revenueTrendChartUpdate', data: $this->chartData);
     }
 };
 
 ?>
 
-<div class="relative bg-white rounded-lg w-full p-4 border border-[#E0D2BB]">
+<div class="flex flex-col relative  bg-white rounded-lg w-full p-4 border border-[#E0D2BB]">
     
     <div wire:loading class="absolute right-0 left-0 top-0 bottom-0 flex items-center justify-center rounded-md w-full h-full bg-[#E0D2BB]/20 z-20 cursor-wait"></div>
 
@@ -83,7 +70,7 @@ new class extends Component {
     </div>
     
     <div class="mt-4">
-        <div class="relative" style="height: 250px;">
+        <div class="relative h-60">
             <canvas id="chart-{{ $this->getId() }}"></canvas>
         </div>
     </div>
@@ -99,34 +86,33 @@ new class extends Component {
 
             function formatData(data) {
                 return {
-                    labels: data.labels.map(window.utils.shortenName),
-                    values: data.values
+                    labels: data.dates.map(window.utils.shortenName),
+                    values: data.cafe_revenue
                 }
             }
 
-            function buildChart(data, type) {
+            function buildChart(data) {
                 if (chart) chart.destroy();
                 
                 const formattedData = formatData(data);
 
                 chart = new Chart(chartCanvas, {
-                    type: type,
+                    type: "line",
                     data: {
                         labels: formattedData.labels,
                         datasets: [{
                             label: @js($title),
                             data: formattedData.values,
                             borderColor: COLOR,
-                            backgroundColor: type === 'line' ? COLOR_BG : COLOR,
+                            backgroundColor:  COLOR_BG,
                             borderRadius: 8,
                             pointBackgroundColor: COLOR,
                             pointRadius: 3,
-                            fill: type === 'line',
+                            fill: true,
                             tension: 0.4,
                         }]
                     },
                     options: {
-                        indexAxis: @js($chartAxis),
                         responsive: true,
                         maintainAspectRatio: false,
                         plugins: { 
@@ -137,7 +123,28 @@ new class extends Component {
                                 bodyColor:'rgba(255,255,255,0.8)',
                                 padding:10,
                                 cornerRadius:8,
+                                callbacks: {
+                                    label: (context) => {
+                                        return ` ${context.dataset.label}: Rp ${context.parsed.y}`;
+                                    }
+                                }
                             } 
+                        },
+                        animation: {
+                            duration: 600,
+                            easing: 'easeInOutQuart',
+                        },
+                        animations: {
+                            x: { duration: 0 },
+                            y: {
+                                from: (context) => {
+                                    if (context.type === 'data' && context.mode === 'default') {
+                                        return context.chart.scales.y.getPixelForValue(0);
+                                    }
+                                },
+                                duration: 600,
+                                easing: 'easeInOutQuart',
+                            },
                         },
                         scales: {
                             x: { grid: { color: COLOR_GRID }, border: { display: false }, ticks: { maxTicksLimit: 8, maxRotation: 0 } },
@@ -147,9 +154,8 @@ new class extends Component {
                 });
             }
 
-            buildChart(@js($chartData), @js($chartType));
-
-            $wire.on('chartDataUpdated', ({ data, type }) => buildChart(data, type));
+            buildChart(@js($chartData));
+            $wire.on('revenueTrendChartUpdate', ({ data }) => buildChart(data));
         </script>
     @endscript
 </div>

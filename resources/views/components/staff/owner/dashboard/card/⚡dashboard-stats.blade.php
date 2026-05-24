@@ -13,12 +13,12 @@ new class extends Component {
     public string $currency;
     public string $value;    
     public bool $withDropdown;
+    
 
     public array $timeframes = [
-        'today'     => 'Hari Ini',
-        'thisWeek'  => 'Minggu Ini',
-        'thisMonth' => 'Bulan Ini',
-        'thisYear'  => 'Tahun Ini',
+        '7d'    => '7 Hari',
+        '30d'   => '30 Hari',
+        '12m'   => '12 Bulan',
     ];
 
     public function mount(
@@ -27,7 +27,7 @@ new class extends Component {
         string $serviceFunction,
         string $currency        = '',
         bool $withDropdown      = false,
-        string $defaultTimeframe = 'today',
+        string $defaultTimeframe = '7d',
     ): void {
         $this->label            = $title;
         $this->serviceClass     = $serviceClass;
@@ -47,8 +47,7 @@ new class extends Component {
     private function fetchData(): void
     {
         $service = app($this->serviceClass);
-        $rawData = $service->{$this->serviceFunction}($this->timeframe);
-        $this->value = $this->currency ? number_format($rawData, 0, ',', '.') : $rawData;
+        $this->value = $service->{$this->serviceFunction}($this->timeframe);
     }
 };
 
@@ -56,13 +55,13 @@ new class extends Component {
 
 <div class="relative flex flex-col bg-white p-4 rounded-lg gap-1 border border-[#E0D2BB]">
     
-    <div wire:loading wire:target class="absolute right-0 left-0 top-0 bottom-0 flex items-center justify-center rounded-md w-full h-full bg-[#E0D2BB]/20 z-20 cursor-wait"></div>
+    <div wire:loading wire:target class="absolute right-0 left-0 top-0 bottom-0 flex items-center justify-center rounded-md w-full h-full bg-[#E0D2BB]/20 z-20 cursor-wait"></div>    
 
     <div class="w-1/5 max-w-15 h-1 bg-[#C5A880] mb-1 rounded-full"></div>
-    <h3 class="font-manrope text-xs text-[#532E1C] tracking-wide">{{ $title }}</h3>
+    <h3 class="font-manrope text-xs font-medium text-[#532E1C] tracking-wide">{{ $title }}</h3>
     <strong class="font-noto-serif text-lg text-[#2C180F]">
         @if($currency) {{ $currency }} @endif
-        <span>{{ $value }}</span>
+        <span>{{ number_format($value, 0, ',', '.'); }}</span>
     </strong>
 
     @if($withDropdown)
