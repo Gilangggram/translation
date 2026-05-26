@@ -19,7 +19,7 @@ class AdminAccountFactory extends Factory
     {
         return [
             'name'          => $this->faker->name(),
-            'phone_number'  => $this->faker->phoneNumber(),
+            'phone_number'  => '08' . $this->faker->unique()->numerify('##########'),
             'password'      => bcrypt('password'),
             'role'          => $this->faker->randomElement(['owner', 'cashier']),
         ];

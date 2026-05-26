@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stall_logs', function (Blueprint $table) {
             $table->id('stall_log_id');
-            $table->foreignUuid('stall_id')->constrained('stalls', 'stall_id');
+            $table->foreignId('stall_id')->constrained('stalls', 'stall_id');
             $table->enum('action', ['created', 'updated', 'deleted']);
             $table->json('old_data')->nullable();
             $table->json('new_data')->nullable();
