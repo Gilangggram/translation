@@ -7,6 +7,11 @@ use App\Models\StallLog;
 
 class StallObserver
 {
+    public function creating(Stall $stall)
+    {
+        $stall->stall_code = $stall->generateStallCode();
+    }
+
     public function created(Stall $stall)
     {
         StallLog::create([
