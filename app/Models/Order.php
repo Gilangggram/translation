@@ -15,11 +15,16 @@ class Order extends Model
 
     protected $fillable = [
         'customer_id',
+        'order_number',
         'order_type',
-        'table_number',
+        'table_id',
+        'reservation_date',
+        'reservation_time',
+        'number_of_people',
         'customer_address',
         'total_price',
         'payment_status',
+        'payment_method',
         'payment_proof',
         'validated_by',
         'validated_at',

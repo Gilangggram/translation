@@ -17,7 +17,7 @@ class OrderItem extends Model
         'order_id',
         'menu_id',
         'quantity',
-        'price_at_transaction',
+        'price_each_at_transaction',
         'total_price',
         'notes',
         'status',

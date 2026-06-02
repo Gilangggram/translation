@@ -21,8 +21,8 @@ class AdminAuthController extends Controller
             $request->session()->regenerate();
             
             return match(Auth::guard('admin')->user()->role) {
-                'admin' => redirect()->route('admin.dashboard'),
-                'kasir' => redirect()->route('kasir.dashboard'),
+                'owner' => redirect()->route('admin.dashboard'),
+                'cashier' => redirect()->route('admin.dashboard'), // fallback or cashier.dashboard if defined
             };
         } 
         
@@ -32,7 +32,10 @@ class AdminAuthController extends Controller
         
     }
 
-    public function logout() {
-
+    public function logout(\Illuminate\Http\Request $request) {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('admin.login');
     }
 }

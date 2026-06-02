@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AdminAccount;
 use App\Models\Customer;
 use App\Models\Menu;
 use App\Models\Order;
@@ -19,12 +20,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(TableSeeder::class);
+
+        AdminAccount::updateOrCreate(
+            ['phone_number' => '081234567890'],
+            [
+                'name' => 'Owner De Pallet',
+                'password' => bcrypt('password'),
+                'role' => 'owner',
+            ]
+        );
+
         StallAccount::factory(5)->create();
 
         $stalls = Stall::all();
         Menu::factory(20)->create([
             'stall_id' => $stalls->random()->stall_id,
         ]);
+
+        // Flag a few menus as Chef Recommendations
+        $stalls->each(function($stall) {
+            $stall->menus()->take(2)->get()->each(function($menu) {
+                $menu->update(['is_chef_recommendation' => true]);
+            });
+        });
 
         Customer::factory(10)->create();
 
