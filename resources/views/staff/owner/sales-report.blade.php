@@ -3,7 +3,7 @@
 <div class="w-full min-h-screen bg-[#F0E7D8] p-4">
     <div class="flex flex-col gap-2">
 
-        <div class="p-2 flex flex-col sm:flex-row items-center justify-between bg-[#E0D2BB] rounded-lg gap-2">
+        <div class="py-2 px-4 flex flex-col sm:flex-row items-center justify-between bg-white border border-[#E0D2BB] rounded-lg gap-2">
 
             <div class="flex flex-col sm:flex-row items-center gap-2">
                 <p class="text-start font-manrope text-sm text-[#532E1C] font-medium">Periode:</p>
@@ -35,7 +35,7 @@
                 <button type="button"
                     wire:click="exportExcel" 
                     wire:loading.attr="disabled" 
-                    class="py-2 px-3 bg-[#532E1C] rounded-sm font-manrope text-xs text-white font-medium">
+                    class="py-2 px-3 bg-[#532E1C] rounded-sm font-manrope text-xs text-white font-medium cursor-pointer">
                         <i class="bi bi-box-arrow-up-right text-xs me-1"></i><span>Export Excel</span>
                 </button>
             </div>

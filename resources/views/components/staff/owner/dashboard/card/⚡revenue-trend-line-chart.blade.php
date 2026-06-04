@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\RevenueService;
+use App\Services\Read\RevenueService;
 use Livewire\Component;
 
 new class extends Component {
@@ -80,13 +80,13 @@ new class extends Component {
             const chartCanvas   = document.getElementById('chart-{{ $this->getId() }}');
             let chart   = null;
 
-            const COLOR      = '#532E1C';
+            const COLOR      = '#2C180F';
             const COLOR_BG   = 'rgba(83,46,28,0.10)';
             const COLOR_GRID = 'rgba(83,46,28,0.08)';
 
             function formatData(data) {
                 return {
-                    labels: data.dates.map(window.utils.shortenName),
+                    labels: data.dates,
                     values: data.cafe_revenue
                 }
             }

@@ -9,26 +9,26 @@
                 'title'           => 'Total Pendapatan',
                 'currency'        => 'Rp',
                 'withDropdown'    => true,
-                'serviceClass'    => \App\Services\RevenueService::class,
+                'serviceClass'    => \App\Services\Read\RevenueService::class,
                 'serviceFunction' => 'getCafeRevenue',
             ])
 
             @livewire('staff.owner.dashboard.card.dashboard-stats', [
                 'title'           => 'Total Pesanan Terselesaikan',
                 'withDropdown'    => true,
-                'serviceClass'    => \App\Services\OrderService::class,
+                'serviceClass'    => \App\Services\Read\OrderService::class,
                 'serviceFunction' => 'getCompletedOrdersCount',
             ])
 
             @livewire('staff.owner.dashboard.card.dashboard-stats', [
                 'title'           => 'Jumlah Stall Aktif',
-                'serviceClass'    => \App\Services\StallService::class,
+                'serviceClass'    => \App\Services\Read\StallService::class,
                 'serviceFunction' => 'getStallsCount',
             ])
 
             @livewire('staff.owner.dashboard.card.dashboard-stats', [
                 'title'           => 'Jumlah Menu Aktif',
-                'serviceClass'    => \App\Services\MenuService::class,
+                'serviceClass'    => \App\Services\Read\MenuService::class,
                 'serviceFunction' => 'getMenusCount',
             ])
 

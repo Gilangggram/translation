@@ -22,6 +22,9 @@ class SalesReport implements FromArray, WithEvents
     {
         $rows = [];
 
+        $rows[] = [$this->getDateRangeLabel(), '', ''];
+        $rows[] = ['', '', ''];
+
         foreach ($this->grouped as $namaStall => $items) {
             $rows[] = [$namaStall, '', ''];
             $rows[] = ['Nama Menu', 'Porsi Terjual', 'Total Pendapatan'];
@@ -50,13 +53,41 @@ class SalesReport implements FromArray, WithEvents
         return $rows;
     }
 
+    private function getDateRangeLabel(): string
+    {
+        $now = now();
+
+        return match($this->timeframe) {
+            'today'     => 'Periode: ' . $now->translatedFormat('d F Y'),
+            '7d'        => 'Periode: ' . $now->copy()->subDays(6)->translatedFormat('d F Y') . ' – ' . $now->translatedFormat('d F Y'),
+            '3d'        => 'Periode: ' . $now->copy()->subDays(29)->translatedFormat('d F Y') . ' – ' . $now->translatedFormat('d F Y'),
+            '12m'       => 'Periode: ' . $now->copy()->subMonths(11)->translatedFormat('F Y') . ' – ' . $now->translatedFormat('F Y'),
+            default     => 'Periode: ' . $now->translatedFormat('d F Y'),
+        };
+    }
+
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet     = $event->sheet->getDelegate();
                 $totalRows = $sheet->getHighestRow();
-                $row       = 1;
+
+                $sheet->mergeCells('A1:C1');
+                $sheet->getStyle('A1:C1')->applyFromArray([
+                    'font' => [
+                        'italic' => true,
+                        'size'   => 10,
+                        'color'  => ['argb' => 'FF80543F'],
+                    ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
+                    ],
+                ]);
+                $sheet->getRowDimension(1)->setRowHeight(20);
+
+                $row = 3;
 
                 foreach ($this->grouped as $namaStall => $items) {
 
@@ -126,6 +157,27 @@ class SalesReport implements FromArray, WithEvents
                 $sheet->getColumnDimension('A')->setWidth(35);
                 $sheet->getColumnDimension('B')->setWidth(18);
                 $sheet->getColumnDimension('C')->setWidth(22);
+
+                $sheet->getHeaderFooter()
+                    ->setOddHeader('&C&"Arial,Bold"&14De\'Pallet');
+                $sheet->getHeaderFooter()
+                    ->setOddFooter('&C&"Arial,Regular"&9De\'Pallet - Laporan Penjualan');
+
+                $sheet->getPageSetup()
+                    ->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4)
+                    ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_PORTRAIT)
+                    ->setFitToPage(true)
+                    ->setFitToWidth(1)
+                    ->setFitToHeight(0);
+
+                $sheet->getPageSetup()->setHorizontalCentered(true);
+
+                $sheet->getPageMargins()->setTop(0.75);
+                $sheet->getPageMargins()->setBottom(0.75);
+                $sheet->getPageMargins()->setLeft(0.7);
+                $sheet->getPageMargins()->setRight(0.7);
+                $sheet->getPageMargins()->setHeader(0.3);
+                $sheet->getPageMargins()->setFooter(0.3);
             },
         ];
     }

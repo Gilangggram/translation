@@ -43,7 +43,7 @@ new class extends Component {
                     <p class="font-manrope text-sm text-[#80543F]">Ubah filter untuk melihat tren pendapatan</p>
                 </div>
             @else
-                <canvas id="chart-{{ $this->getId() }}" style="height: 250px;"></canvas>
+                <canvas wire:ignore id="chart-{{ $this->getId() }}" style="height: 250px;"></canvas>
             @endif
         </div>
     </div>
@@ -52,13 +52,13 @@ new class extends Component {
         <script>
             let chart   = null;
 
-            const COLOR      = '#532E1C';
+            const COLOR      = '#2C180F';
             const COLOR_BG   = 'rgba(83,46,28,0.10)';
             const COLOR_GRID = 'rgba(83,46,28,0.08)';
 
             function formatData(data) {
                 return {
-                    labels: data.dates.map(window.utils.shortenName),
+                    labels: data.dates,
                     values: data.cafe_revenue
                 }
             }

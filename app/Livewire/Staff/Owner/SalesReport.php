@@ -3,9 +3,9 @@
 namespace App\Livewire\Staff\Owner;
 
 use App\Exports\SalesReport as ExportsSalesReport;
-use App\Services\OrderService;
-use App\Services\RevenueService;
-use App\Services\SalesService;
+use App\Services\Read\OrderService;
+use App\Services\Read\RevenueService;
+use App\Services\Read\SalesService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
@@ -43,6 +43,14 @@ class SalesReport extends Component
         $this->fetchAllData();
     }
 
+    public function exportExcel(): BinaryFileResponse
+    {
+        $label    = $this->timeframes[$this->timeframe];
+        $filename = 'laporan-' . str()->slug($label) . '-' . now()->format('Ymd') . '.xlsx';
+
+        return Excel::download(new ExportsSalesReport($this->timeframe), $filename);
+    }
+
     private function fetchAllData(): void
     {
         $revenue = app(RevenueService::class);
@@ -72,14 +80,6 @@ class SalesReport extends Component
             $this->revenueTrend = [];
         }
     }
-
-    public function exportExcel(): BinaryFileResponse
-    {
-        $label    = $this->timeframes[$this->timeframe];
-        $filename = 'laporan-' . str()->slug($label) . '-' . now()->format('Ymd') . '.xlsx';
-
-        return Excel::download(new ExportsSalesReport($this->timeframe), $filename);
-    }   
     
     public function render()
     {

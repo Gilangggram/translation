@@ -29,10 +29,10 @@ new class extends Component
     public function selectRow(string $stallId): void
     {
         $stall = Stall::find($stallId);
-    $this->dispatch('stall-selected', 
-        requestId: $stallId,  // ← kirim stallId sebagai request ID
-        stall: $stall->toArray()
-    );
+        $this->dispatch('stall-selected', 
+            requestId: $stallId,
+            stall: $stall->toArray()
+        );
     }
 
     #[Computed]
@@ -67,14 +67,13 @@ new class extends Component
                 </thead>
             </table>
 
-            <div class="overflow-y-auto max-h-60
-                [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#C5A880]">
+            <div class="overflow-y-auto max-h-60 light-brown-scrollbar">
                 <table class="w-full border-collapse table-fixed">
                     <tbody>
                         @forelse($this->sortedTableData as $row)
                             <tr wire:click="selectRow('{{ $row['stall_id'] }}')"
                                 onclick="window.openStallModal('{{ $row['stall_id'] }}')"
-                                class="border-b border-[#E0D2BB] hover:bg-[#F9F5F0] transition-colors cursor-pointer">
+                                class="border-b border-[#E0D2BB] hover:bg-[#F5F2F0] cursor-pointer">
 
                                 @foreach($columns as $col)
                                     <td class="px-4 py-3 text-sm text-[#2C180F] text-center">
@@ -95,7 +94,7 @@ new class extends Component
                         @empty
                             <tr>
                                 <td colspan="{{ count($columns) }}"
-                                    class="px-4 py-12 text-center text-sm text-[#C5A880] italic">
+                                    class="px-4 py-12 text-center text-sm text-[#80543F] italic">
                                     Tidak ada data tersedia
                                 </td>
                             </tr>
@@ -107,10 +106,10 @@ new class extends Component
 
         {{-- width lg > --}}
         <div class="lg:hidden flex flex-col divide-y divide-[#E0D2BB] border border-[#E0D2BB] rounded-sm overflow-hidden overflow-y-auto max-h-120
-            [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#C5A880]">
+        light-brown-scrollbar">
 
             @forelse($this->sortedTableData as $row)
-                <div class="p-4 hover:bg-[#F9F5F0] transition-colors">
+                <div class="p-4 hover:bg-[#F5F2F0]">
 
                     @foreach($columns as $col)
                         <div class="flex justify-between items-center py-1">
@@ -133,7 +132,7 @@ new class extends Component
                     @endforeach
                 </div>
             @empty
-                <div class="p-12 text-center text-sm text-[#C5A880] italic">
+                <div class="p-12 text-center text-sm text-[#80543F] italic">
                     Tidak ada data tersedia
                 </div>
             @endforelse
@@ -144,22 +143,33 @@ new class extends Component
     <div wire:ignore>
         <div id="stall-modal" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-
             <div class="relative p-4 w-full max-w-md max-h-full">
                 <div class="relative bg-white rounded-lg shadow">
+                    <div class="p-4 min-h-24 flex flex-col gap-3">
 
-                    <div class="p-4 min-h-24 flex flex-col gap-3" id="stall-modal-body">
                         <div id="stall-modal-loading" class="hidden justify-center items-center py-6">
-                            <div class="animate-spin h-5 w-5 border-3 border-[#E0D2BB] flex items-center justify-center border-t-[#532E1C] rounded-full">
+                            <div class="animate-spin h-5 w-5 border-2 border-[#E0D2BB] border-t-[#532E1C] rounded-full"></div>
+                        </div>
+
+                        <div id="stall-modal-content" class="hidden flex-col gap-3">
+                            <div class="flex justify-between text-sm border-b border-[#E0D2BB] pb-3">
+                                <span class="text-[#80543F]">Nama Stall</span>
+                                <span class="text-[#2C180F] font-medium" id="modal-stall-name"></span>
+                            </div>
+                            <div class="flex justify-between text-sm border-b border-[#E0D2BB] pb-3">
+                                <span class="text-[#80543F]">Pemilik</span>
+                                <span class="text-[#2C180F] font-medium" id="modal-owner-name"></span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-[#80543F]">Status</span>
+                                <span class="text-[#2C180F] font-medium" id="modal-status"></span>
                             </div>
                         </div>
-                        
-                        <div id="stall-modal-content" class="flex flex-col gap-3"></div>
-                        
-                        <button type="button" 
+
+                        <button type="button"
                             onclick="window.stallModal.hide()"
-                            class="text-white bg-[#532E1C] w-full">
-                            Close
+                            class="text-white bg-[#532E1C] w-full py-2 rounded-md font-manrope text-sm">
+                            Tutup
                         </button>
                     </div>
                 </div>
@@ -168,42 +178,35 @@ new class extends Component
     </div>
 
     @script
-        <script>
-            window.stallModal = new Modal(document.getElementById('stall-modal'));
+    <script>
+        window.stallModal = new Modal(document.getElementById('stall-modal'));
 
-            let currentRequestId = null;
+        let currentRequestId = null;
 
-            $wire.on('stall-selected', (data) => {
-                if (data.requestId !== currentRequestId) return;
+        window.openStallModal = (stallId) => {
+            currentRequestId = stallId;
 
-                const loading = document.getElementById('stall-modal-loading');
-                const content = document.getElementById('stall-modal-content');
+            document.getElementById('stall-modal-content').classList.add('hidden');
+            document.getElementById('stall-modal-content').classList.remove('flex');
+            document.getElementById('stall-modal-loading').classList.remove('hidden');
+            document.getElementById('stall-modal-loading').classList.add('flex');
+            window.stallModal.show();
+        };
 
-                loading.classList.add('hidden');
-                loading.classList.remove('flex');
-                content.innerHTML = `
-                    <div class="flex justify-between text-sm border-b border-[#E0D2BB] pb-3">
-                        <span class="text-[#80543F]">Nama Stall</span>
-                        <span class="text-[#2C180F] font-medium">${data.stall.name}</span>
-                    </div>
-                    <div class="flex justify-between text-sm border-b border-[#E0D2BB] pb-3">
-                        <span class="text-[#80543F]">Pemilik</span>
-                        <span class="text-[#2C180F] font-medium">${data.stall.owner_name}</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="text-[#80543F]">Status</span>
-                        <span class="text-[#2C180F] font-medium">${data.stall.is_open ? 'Buka' : 'Tutup'}</span>
-                    </div>
-                `;
-            });
+        $wire.on('stall-selected', (data) => {
+            if (data.requestId !== currentRequestId) return;
 
-            window.openStallModal = (stallId) => {
-                currentRequestId = stallId;
-                window.stallModal.show();
-                document.getElementById('stall-modal-content').innerHTML = '';
-                document.getElementById('stall-modal-loading').classList.remove('hidden');
-                document.getElementById('stall-modal-loading').classList.add('flex');
-            };
-        </script>
+            // Isi value — tanpa nulis HTML
+            document.getElementById('modal-stall-name').textContent = data.stall.name;
+            document.getElementById('modal-owner-name').textContent = data.stall.owner_name;
+            document.getElementById('modal-status').textContent     = data.stall.is_open ? 'Buka' : 'Tutup';
+
+            // Tukar spinner dengan konten
+            document.getElementById('stall-modal-loading').classList.add('hidden');
+            document.getElementById('stall-modal-loading').classList.remove('flex');
+            document.getElementById('stall-modal-content').classList.remove('hidden');
+            document.getElementById('stall-modal-content').classList.add('flex');
+        });
+    </script>
     @endscript
 </div>

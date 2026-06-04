@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Component;
-use App\Services\OrderService;
+use App\Services\Read\OrderService;
 
 new class extends Component
 {
@@ -104,10 +104,10 @@ new class extends Component
             <canvas id="chart-{{ $this->getId() }}"></canvas>
             
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span class="font-noto-serif text-xl font-bold text-[#532E1C]">
+                <span class="font-noto-serif text-xl font-bold text-[#2C180F]">
                     {{ $this->getTotalCount() }}
                 </span>
-                <span class="font-manrope text-xs text-[#80543F]">Total Order</span>
+                <span class="font-manrope text-xs text-[#532E1C]">Total Order</span>
             </div>
         </div>
  

@@ -22,14 +22,14 @@
                             <i class="bi bi-bar-chart-line text-sm"></i> Laporan Keuangan
                 </a>
     
-                <a href="{{ route('owner.stalls-management') }}" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
-                        {{ request()->routeIs('owner.stalls-management') ? 'text-white font-medium border-l-amber-400 bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
+                <a href="{{ route('owner.stalls-management.index') }}" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
+                        {{ request()->routeIs('owner.stalls-management.*') ? 'text-white font-medium border-l-amber-400 bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
                             <i class="bi bi-shop text-sm"></i> Kelola Stall
                 </a>
 
-                <a href="{{ route('owner.cashiers-management') }}" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
-                        {{ request()->routeIs('owner.cashiers-management') ? 'text-white font-medium border-l-amber-400 bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
-                            <i class="bi bi-person-lines-fill text-sm"></i> Kelola Akun Kasir
+                <a href="{{ route('owner.admins-management.index') }}" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
+                        {{ request()->routeIs('owner.admins-management.*') ? 'text-white font-medium border-l-amber-400 bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
+                            <i class="bi bi-person-lines-fill text-sm"></i> Kelola Akun Admin
                 </a>
     
             </nav>

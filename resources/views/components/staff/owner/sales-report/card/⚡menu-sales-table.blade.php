@@ -61,13 +61,12 @@ new class extends Component
 
         </table>
             
-        <div class="overflow-y-auto max-h-60 
-            [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#C5A880]">
+        <div class="overflow-y-auto max-h-60 light-brown-scrollbar">
             <table class="w-full border-collapse table-fixed">
 
                 <tbody>
                     @forelse($this->sortedTableData as $row)
-                        <tr class="border-b border-[#E0D2BB] hover:bg-[#F9F5F0] transition-colors">
+                        <tr class="border-b border-[#E0D2BB] hover:bg-[#F5F2F0]">
 
                             @foreach($columns as $col)
                                 <td class="px-4 py-3 text-sm text-[#2C180F] text-center">
@@ -90,7 +89,7 @@ new class extends Component
                     @empty
                         <tr>
                             <td colspan="{{ count($columns) }}"
-                                class="px-4 py-12 text-center text-sm text-[#C5A880] italic">
+                                class="px-4 py-12 text-center text-sm text-[#80543F] italic">
                                 Tidak ada data tersedia
                             </td>
                         </tr>
@@ -102,11 +101,10 @@ new class extends Component
     </div>
 
     {{-- width lg > --}}
-    <div class="lg:hidden flex flex-col divide-y divide-[#E0D2BB] border border-[#E0D2BB] rounded-sm overflow-hidden overflow-y-auto max-h-120
-    [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#C5A880]">
+    <div class="lg:hidden flex flex-col divide-y divide-[#E0D2BB] border border-[#E0D2BB] rounded-sm overflow-hidden overflow-y-auto max-h-120 light-brown-scrollbar">
 
     @forelse($this->sortedTableData as $row)
-        <div class="p-4 hover:bg-[#F9F5F0] transition-colors">
+        <div class="p-4 hover:bg-[#F5F2F0] ">
 
             @foreach($columns as $col)
                 <div class="flex justify-between items-center py-1">
@@ -129,7 +127,7 @@ new class extends Component
             @endforeach
         </div>
     @empty
-        <div class="p-12 text-center text-sm text-[#C5A880] italic">
+        <div class="p-12 text-center text-sm text-[#80543F] italic">
             Tidak ada data tersedia
         </div>
     @endforelse

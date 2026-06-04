@@ -2,12 +2,14 @@
 
 use App\Models\Order;
 use Livewire\Component;
+use App\Services\Read\OrderService;
+use Illuminate\Support\Facades\Date;
 
 new class extends Component {
 
     public string $title;
     public string $subTitle;
-    public int $maxDataFetched;
+    public int $dataLimit       = 5;
 
     public array $columns = [
         ['key' => 'order_number', 'label' => 'No. Order',],
@@ -20,20 +22,14 @@ new class extends Component {
     public function mount(
         string $title,
         string $subTitle,
-        int $maxDataFetched     = 0,
     ): void {
         $this->title            = $title;
         $this->subTitle         = $subTitle;
-        $this->maxDataFetched   = $maxDataFetched;
     }
 
     public function fetchData()
     {
-        $query = Order::query()->orderBy('created_at', 'desc');
-
-        return $this->maxDataFetched > 0
-            ? $query->limit($this->maxDataFetched)->get()
-            : $query->get();
+        return app(OrderService::class)->getRecentOrders($this->dataLimit);
     }
 
     public function getPaymentStatusClasses(string $status): string
@@ -80,7 +76,7 @@ new class extends Component {
             
             <tbody>
                 @forelse($this->fetchData() as $row)
-                    <tr class="border-b border-[#E0D2BB] hover:bg-[#F9F5F0] transition-colors">
+                    <tr class="border-b border-[#E0D2BB] hover:bg-[#F5F2F0]">
 
                         @foreach($columns as $col)
                             <td class="px-4 py-3 text-sm text-[#2C180F] text-center">
@@ -88,29 +84,30 @@ new class extends Component {
                                 @switch($col['key'])
 
                                     @case('order_number')
-                                        {{ $row->order_number }}
+                                        {{ $row['order_number'] }}
                                     @break
 
                                     @case('order_type')
                                         <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                            {{ $this->getOrderTypeClasses($row->order_type) }}">
-                                            {{ str_replace('_', ' ', ucfirst($row->order_type)) }}
+                                            {{ $this->getOrderTypeClasses($row['order_type']) }}">
+                                            {{ str_replace('_', ' ', ucfirst($row['order_type'])) }}
                                         </span>
                                     @break
 
                                     @case('payment_status')
-                                        <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                            {{ $this->getPaymentStatusClasses($row->payment_status) }}">
-                                            {{ ucfirst($row->payment_status) }}
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium
+                                            {{ $this->getPaymentStatusClasses($row['payment_status']) }}">
+                                                <span class="w-1 h-1 rounded-full bg-current mt-px"></span>
+                                                {{ ucfirst($row['payment_status']) }}
                                         </span>
                                     @break
 
                                     @case('total_price')
-                                        Rp {{ number_format($row->total_price, 0, ',', '.') }}
+                                        Rp {{ number_format($row['total_price'], 0, ',', '.') }}
                                     @break
 
                                     @case('created_at')
-                                        {{ $row->created_at->format('d M Y') }}
+                                        {{ $row['created_at'] }}
                                     @break
 
                                 @endswitch
@@ -120,7 +117,7 @@ new class extends Component {
                 @empty
                     <tr>
                         <td colspan="{{ count($columns) }}"
-                            class="px-4 py-12 text-center text-sm text-[#C5A880] italic">
+                            class="px-4 py-12 text-center text-sm text-[#80543F] italic">
                             Tidak ada data tersedia
                         </td>
                     </tr>
@@ -133,7 +130,7 @@ new class extends Component {
     <div class="lg:hidden flex flex-col divide-y divide-[#E0D2BB] border border-[#E0D2BB] rounded-sm overflow-hidden">
 
         @forelse($this->fetchData() as $row)
-            <div class="p-4 hover:bg-[#F9F5F0] transition-colors">
+            <div class="p-4 hover:bg-[#F5F2F0]">
 
                 @foreach($columns as $col)
                     <div class="flex justify-between items-center py-1">
@@ -143,36 +140,36 @@ new class extends Component {
                             @switch($col['key'])
 
                                 @case('order_number')
-                                        {{ $row->order_number }}
+                                        {{ $row['order_number']}}
                                 @break
 
                                 @case('order_type')
                                     <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                        {{ $this->getOrderTypeClasses($row->order_type) }}">
-                                        {{ str_replace('_', ' ', ucfirst($row->order_type)) }}
+                                        {{ $this->getOrderTypeClasses($row['order_type']) }}">
+                                        {{ str_replace('_', ' ', ucfirst($row['order_type'])) }}
                                     </span>
                                 @break
 
                                 @case('payment_status')
                                     <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                        {{ $this->getPaymentStatusClasses($row->payment_status) }}">
-                                        {{ ucfirst($row->payment_status) }}
+                                        {{ $this->getPaymentStatusClasses($row['payment_status']) }}">
+                                        {{ ucfirst($row['payment_status']) }}
                                     </span>
                                 @break
 
                                 @case('is_completed')
                                     <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                        {{ $this->getCompletedOrderStatusClasses($row->is_completed) }}">
-                                        {{ $row->is_completed ? 'Selesai' : 'Proses' }}
+                                        {{ $this->getCompletedOrderStatusClasses($row['is_completed']) }}">
+                                        {{ $row['is_completed'] ? 'Selesai' : 'Proses' }}
                                     </span>
                                 @break
 
                                 @case('total_price')
-                                    Rp {{ number_format($row->total_price, 0, ',', '.') }}
+                                    Rp {{ number_format($row['total_price'], 0, ',', '.') }}
                                 @break
 
                                 @case('created_at')
-                                    {{ $row->created_at->format('d M Y') }}
+                                    {{ $row['created_at'] }}
                                 @break
 
                             @endswitch
@@ -181,7 +178,7 @@ new class extends Component {
                 @endforeach
             </div>
         @empty
-            <div class="p-12 text-center text-sm text-[#C5A880] italic">
+            <div class="p-12 text-center text-sm text-[#80543F] italic">
                 Tidak ada data tersedia
             </div>
         @endforelse
