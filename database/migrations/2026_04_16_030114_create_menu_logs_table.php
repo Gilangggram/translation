@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('menu_logs', function (Blueprint $table) {
             $table->id('menu_log_id');
             $table->foreignId('menu_id')->constrained('menus', 'menu_id');
-            $table->enum('action', ['created', 'updated', 'deleted']);
+            $table->enum('action', ['created', 'updated', 'deleted', 'restored']);
             $table->json('old_data')->nullable();
             $table->json('new_data')->nullable();
             $table->timestamp('created_at')->useCurrent();

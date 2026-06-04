@@ -12,14 +12,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Stall extends Model
 {
-    use HasUuids, SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory;
 
     protected $table = 'stalls';
     protected $primaryKey = 'stall_id';
-    public $incrementing = false;
-    protected $keyType = 'string';
 
     protected $fillable = [
+        'stall_code',
         'name',
         'owner_name',
         'is_open',
@@ -36,35 +35,5 @@ class Stall extends Model
 
     public function stallLogs() {
         return $this->hasMany(StallLog::class, 'stall_id', 'stall_id');
-    }
-
-    protected static function booted() {
-        static::created(function ($stall) {
-            StallLog::create([
-                'stall_id' => $stall->stall_id,
-                'action' => 'created',
-                'new_data' => $stall->toJson(),
-            ]);
-        });
-
-        static::updated(function ($stall) {
-            StallLog::create([
-                'stall_id' => $stall->stall_id,
-                'action' => 'updated',
-                'old_data' => json_encode($stall->getOriginal()),
-                'new_data' => $stall->toJson(),
-            ]);
-        });
-
-        static::deleted(function ($stall) {
-            StallLog::create([
-                'stall_id' => $stall->stall_id,
-                'action' => 'deleted',
-                'old_data' => $stall->toJson(),
-            ]);
-
-            $stall->menus()->delete();
-            $stall->stall_account()->delete();
-        });
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -26,6 +27,7 @@ class Order extends Model
         'payment_status',
         'payment_method',
         'payment_proof',
+        'is_completed',
         'validated_by',
         'validated_at',
     ];
@@ -44,5 +46,21 @@ class Order extends Model
 
     public function orderItems() {
         return $this->hasMany(OrderItem::class, 'order_id', 'order_id');
+    }
+
+    public function reservation() {
+        return $this->hasOne(Reservation::class, 'order_id', 'order_id');
+    }
+
+    public function checkAndCompleteOrder()
+    {
+        DB::transaction(function () {
+            $order = Order::lockForUpdate()->find($this->id);
+            $allServed = $order->items()->where('status', '!=', 'served')->doesntExist();
+            
+            if ($allServed && !$order->is_completed) {
+                $order->update(['is_completed' => true]);
+            }
+        });
     }
 }

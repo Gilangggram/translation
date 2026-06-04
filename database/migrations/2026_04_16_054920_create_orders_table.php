@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('payment_status', ['pending', 'paid', 'cancelled'])->default('pending');
             $table->string('payment_proof');
             $table->foreignUuid('validated_by')->constrained('admin_accounts', 'admin_account_id');
+            $table->boolean('is_completed')->default(false);
             $table->timestamp('validated_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });

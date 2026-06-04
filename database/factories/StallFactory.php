@@ -18,7 +18,11 @@ class StallFactory extends Factory
      */
     public function definition(): array
     {
+
+        static $number = 1;
+
         return [
+            'stall_code' => 'ST-A' . str_pad($number++, 3, '0', STR_PAD_LEFT),
             'name' => $this->faker->company(),
             'owner_name' => $this->faker->name(),
             'is_open' => $this->faker->boolean(),

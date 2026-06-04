@@ -20,7 +20,7 @@ export function initPasswordToggle() {
 
     // Toggle show/hide
     togglePassBtn.addEventListener('click', () => {
-        if (passInput.type === 'password') {  // ← passInput, bukan input
+        if (passInput.type === 'password') {
             passInput.type = 'text';
             icon.classList.replace('bi-eye', 'bi-eye-slash');
         } else {

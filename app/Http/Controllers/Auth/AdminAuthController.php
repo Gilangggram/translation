@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminAuthController extends Controller
 {
-    public function showLoginForm() {
+    public function index() {
         return view('auth.admin-login');
     }
 
@@ -21,8 +21,8 @@ class AdminAuthController extends Controller
             $request->session()->regenerate();
             
             return match(Auth::guard('admin')->user()->role) {
-                'owner' => redirect()->route('admin.dashboard'),
-                'cashier' => redirect()->route('admin.dashboard'), // fallback or cashier.dashboard if defined
+                'owner' => redirect()->route('owner.dashboard'),
+                'cashier' => redirect()->route('cashier.dashboard'),
             };
         } 
         

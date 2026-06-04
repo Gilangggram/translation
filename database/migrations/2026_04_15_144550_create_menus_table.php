@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id('menu_id');
-            $table->foreignUuid('stall_id')->constrained('stalls', 'stall_id');
+            $table->foreignid('stall_id')->constrained('stalls', 'stall_id');
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();
             $table->decimal('price', 10, 2);
+            $table->boolean('is_chef_favorite')->default(false);
             $table->boolean('is_available')->default(true);
             $table->timestamps();
             $table->softDeletes();

@@ -22,7 +22,7 @@ The system is designed for a target demographic of 18–55 year old users and su
  
 ```bash
 git clone https://github.com/your-username/depallet-cafe.git
-cd depallet-cafe
+cd depallet-project
 ```
  
 ### 2. Install Dependencies

@@ -25,4 +25,8 @@ class Table extends Model
     public function queues() {
         return $this->hasMany(TableQueue::class, 'table_id', 'table_id');
     }
+
+    public function reservations() {
+        return $this->hasMany(Reservation::class, 'table_id', 'table_id');
+    }
 }
