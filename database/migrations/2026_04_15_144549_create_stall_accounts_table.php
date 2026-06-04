@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stall_accounts', function (Blueprint $table) {
             $table->uuid('stall_account_id')->primary();
-            $table->foreignUuid('stall_id')->constrained('stalls', 'stall_id');
+            $table->foreignId('stall_id')->constrained('stalls', 'stall_id');
             $table->string('phone_number')->unique();
             $table->string('password');
             $table->timestamps();

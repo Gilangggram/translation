@@ -2,66 +2,52 @@
 
 use App\Models\Order;
 use Livewire\Component;
+use App\Services\Read\OrderService;
+use Illuminate\Support\Facades\Date;
 
 new class extends Component {
 
     public string $title;
     public string $subTitle;
-    public int $maxDataFetched;
+    public int $dataLimit       = 5;
 
     public array $columns = [
         ['key' => 'order_number', 'label' => 'No. Order',],
         ['key' => 'order_type', 'label' => 'Tipe'],
         ['key' => 'total_price', 'label' => 'Total'],
         ['key' => 'payment_status', 'label' => 'Pembayaran'],
-        ['key' => 'is_completed', 'label' => 'Status'],
         ['key' => 'created_at', 'label' => 'Tanggal'],
     ];
 
     public function mount(
         string $title,
         string $subTitle,
-        int $maxDataFetched     = 0,
     ): void {
         $this->title            = $title;
         $this->subTitle         = $subTitle;
-        $this->maxDataFetched   = $maxDataFetched;
     }
 
     public function fetchData()
     {
-        $query = Order::query();
-
-        return $this->maxDataFetched > 0
-            ? $query->limit($this->maxDataFetched)->get()
-            : $query->get();
+        return app(OrderService::class)->getRecentOrders($this->dataLimit);
     }
 
     public function getPaymentStatusClasses(string $status): string
     {
         return match ($status) {
-            'pending'   => 'bg-yellow-100 text-yellow-700',
-            'paid'      => 'bg-green-100 text-green-700',
-            'cancelled' => 'bg-red-100 text-red-700',
-            default     => 'bg-gray-100 text-gray-600',
+            'pending'   => 'bg-[#FFF5C6] text-[#6B5B0D]',
+            'paid'      => 'bg-[#B6DDA5] text-[#246009]',
+            'cancelled' => 'bg-[#F9B1B1] text-[#AD1614]',
         };
     }
 
     public function getOrderTypeClasses(string $type): string
     {
         return match ($type) {
-            'dine_in'     => 'bg-blue-100 text-blue-700',
-            'delivery'    => 'bg-purple-100 text-purple-700',
-            'reservation' => 'bg-orange-100 text-orange-700',
-            default       => 'bg-gray-100 text-gray-600',
+            'dine_in'     => 'bg-[#E8D5A3] text-[#4A3510]',
+            'delivery'    => 'bg-[#DEB99A] text-[#5C2E0E]',
+            'reservation' => 'bg-[#C9A882] text-[#2C180F]',
         };
-    }
-
-    public function getCompletedOrderStatusClasses(bool $isCompleted): string
-    {
-        return $isCompleted
-            ? 'bg-green-100 text-green-700'
-            : 'bg-yellow-100 text-yellow-700';
     }
 };
 
@@ -90,7 +76,7 @@ new class extends Component {
             
             <tbody>
                 @forelse($this->fetchData() as $row)
-                    <tr class="border-b border-[#E0D2BB] hover:bg-[#F9F5F0] transition-colors">
+                    <tr class="border-b border-[#E0D2BB] hover:bg-[#F5F2F0]">
 
                         @foreach($columns as $col)
                             <td class="px-4 py-3 text-sm text-[#2C180F] text-center">
@@ -98,49 +84,40 @@ new class extends Component {
                                 @switch($col['key'])
 
                                     @case('order_number')
-                                        <span class="px-2 py-0.5 rounded-full text-xs font-medium">
-                                            {{ $row->order_number }}
-                                        </span>
+                                        {{ $row['order_number'] }}
                                     @break
 
                                     @case('order_type')
                                         <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                            {{ $this->getOrderTypeClasses($row->order_type) }}">
-                                            {{ str_replace('_', ' ', ucfirst($row->order_type)) }}
+                                            {{ $this->getOrderTypeClasses($row['order_type']) }}">
+                                            {{ str_replace('_', ' ', ucfirst($row['order_type'])) }}
                                         </span>
                                     @break
 
                                     @case('payment_status')
-                                        <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                            {{ $this->getPaymentStatusClasses($row->payment_status) }}">
-                                            {{ ucfirst($row->payment_status) }}
-                                        </span>
-                                    @break
-
-                                    @case('is_completed')
-                                        <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                            {{ $this->getCompletedOrderStatusClasses($row->is_completed) }}">
-                                            {{ $row->is_completed ? 'Selesai' : 'Proses' }}
+                                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium
+                                            {{ $this->getPaymentStatusClasses($row['payment_status']) }}">
+                                                <span class="w-1 h-1 rounded-full bg-current mt-px"></span>
+                                                {{ ucfirst($row['payment_status']) }}
                                         </span>
                                     @break
 
                                     @case('total_price')
-                                        Rp {{ number_format($row->total_price, 0, ',', '.') }}
+                                        Rp {{ number_format($row['total_price'], 0, ',', '.') }}
                                     @break
 
                                     @case('created_at')
-                                        {{ $row->created_at->format('d M Y') }}
+                                        {{ $row['created_at'] }}
                                     @break
 
                                 @endswitch
-
                             </td>
                         @endforeach
                     </tr>
                 @empty
                     <tr>
                         <td colspan="{{ count($columns) }}"
-                            class="px-4 py-12 text-center text-sm text-[#C5A880] italic">
+                            class="px-4 py-12 text-center text-sm text-[#80543F] italic">
                             Tidak ada data tersedia
                         </td>
                     </tr>
@@ -150,33 +127,58 @@ new class extends Component {
     </div>
 
     {{-- width lg > --}}
-    <div class="lg:hidden flex flex-col divide-y divide-[#E0D2BB]">
+    <div class="lg:hidden flex flex-col divide-y divide-[#E0D2BB] border border-[#E0D2BB] rounded-sm overflow-hidden">
+
         @forelse($this->fetchData() as $row)
-            <div class="p-4 hover:bg-[#F9F5F0] transition-colors">
+            <div class="p-4 hover:bg-[#F5F2F0]">
+
                 @foreach($columns as $col)
-                    @php $val = data_get($row, $col['key']); @endphp
                     <div class="flex justify-between items-center py-1">
-                        <span class="font-manrope text-xs text-[#C5A880]">{{ $col['label'] }}</span>
+                        <span class="font-manrope text-xs text-[#2C180F]">{{ $col['label'] }}</span>
+                        
                         <span class="font-manrope text-sm text-[#2C180F]">
-                            @switch($col['format'] ?? '')
-                                @case('currency')
-                                    {{ $col['currency'] }}&nbsp;{{ number_format($val, 0, ',', '.') }}
+                            @switch($col['key'])
+
+                                @case('order_number')
+                                        {{ $row['order_number']}}
                                 @break
-                                @case('badge')
+
+                                @case('order_type')
                                     <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                        {{ $col['colors'][$val] ?? 'bg-gray-100 text-gray-600' }}">
-                                        {{ $col['labels'][$val] ?? $val }}
+                                        {{ $this->getOrderTypeClasses($row['order_type']) }}">
+                                        {{ str_replace('_', ' ', ucfirst($row['order_type'])) }}
                                     </span>
                                 @break
-                                @default
-                                    {{ $val }}
+
+                                @case('payment_status')
+                                    <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                                        {{ $this->getPaymentStatusClasses($row['payment_status']) }}">
+                                        {{ ucfirst($row['payment_status']) }}
+                                    </span>
+                                @break
+
+                                @case('is_completed')
+                                    <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                                        {{ $this->getCompletedOrderStatusClasses($row['is_completed']) }}">
+                                        {{ $row['is_completed'] ? 'Selesai' : 'Proses' }}
+                                    </span>
+                                @break
+
+                                @case('total_price')
+                                    Rp {{ number_format($row['total_price'], 0, ',', '.') }}
+                                @break
+
+                                @case('created_at')
+                                    {{ $row['created_at'] }}
+                                @break
+
                             @endswitch
                         </span>
                     </div>
                 @endforeach
             </div>
         @empty
-            <div class="p-12 text-center text-sm text-[#C5A880] italic">
+            <div class="p-12 text-center text-sm text-[#80543F] italic">
                 Tidak ada data tersedia
             </div>
         @endforelse

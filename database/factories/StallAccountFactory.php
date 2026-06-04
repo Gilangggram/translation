@@ -20,7 +20,7 @@ class StallAccountFactory extends Factory
     {
         return [
             'stall_id' => Stall::factory(),
-            'phone_number' => $this->faker->unique()->phoneNumber(),
+            'phone_number' => '08' . $this->faker->unique()->numerify('##########'),
             'password' => bcrypt('password'),
         ];
     }

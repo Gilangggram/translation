@@ -37,9 +37,23 @@
     font-weight: 400;
 }
 
+@utility light-brown-scrollbar {
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #C5A880;
+    }
+}
+
 
 input[type="password"]::-ms-reveal,
 input[type="password"]::-ms-clear {
     display: none;
-
 }
+

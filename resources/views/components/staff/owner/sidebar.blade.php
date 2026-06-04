@@ -2,7 +2,7 @@
 
     <div class="px-6 py-6 shrink-0 flex flex-col justify-between">
         <h1 class="text-sm text-[#C5A880] font-noto-serif">Sistem Owner</h1>
-        <h1 class="text-lg text-white font-thin font-abril-fatface">De' <span>Pallet</span> Cafe</h1>
+        <p class="text-lg text-white font-thin font-abril-fatface">De' <span>Pallet</span> Cafe</p>
     </div>
 
     <div class="h-0.5 bg-white/10 w-full"></div>
@@ -19,12 +19,17 @@
     
                 <a href="{{ route('owner.sales-report') }}" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
                         {{ request()->routeIs('owner.sales-report') ? 'text-white font-medium border-l-amber-400 bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
-                            <i class="bi bi-bar-chart-line text-sm"></i> Laporan Penjualan
+                            <i class="bi bi-bar-chart-line text-sm"></i> Laporan Keuangan
                 </a>
     
-                <a href="" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
-                        {{ request()->routeIs('cashier.reservasi') ? 'text-white font-medium border-l-amber-400 bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
+                <a href="{{ route('owner.stalls-management.index') }}" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
+                        {{ request()->routeIs('owner.stalls-management.*') ? 'text-white font-medium border-l-amber-400 bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
                             <i class="bi bi-shop text-sm"></i> Kelola Stall
+                </a>
+
+                <a href="{{ route('owner.admins-management.index') }}" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
+                        {{ request()->routeIs('owner.admins-management.*') ? 'text-white font-medium border-l-amber-400 bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
+                            <i class="bi bi-person-lines-fill text-sm"></i> Kelola Akun Admin
                 </a>
     
             </nav>

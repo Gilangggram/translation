@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id('menu_id');
-            $table->foreignUuid('stall_id')->constrained('stalls', 'stall_id');
+            $table->foreignid('stall_id')->constrained('stalls', 'stall_id');
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();

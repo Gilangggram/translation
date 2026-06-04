@@ -18,6 +18,7 @@ class StallAccount extends Authenticatable
     protected $keyType = 'string';
 
     protected $fillable = [
+        'stall_id',
         'phone_number',
         'password',
     ];

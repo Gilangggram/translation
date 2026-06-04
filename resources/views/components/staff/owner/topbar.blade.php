@@ -15,7 +15,7 @@
 
         <div class="flex gap-3 items-center">
             <div class="hidden lg:flex flex-col justify-center px-2 py-1 h-fit border border-[#E0D2BB] rounded-sm">
-                <p id="clock" class="font-manrope text-sm text-[#532E1C]"></p>
+                <span id="clock" class="font-manrope text-sm text-[#532E1C]"></span>
             </div>
 
             <div class="relative">
