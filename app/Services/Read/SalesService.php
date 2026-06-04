@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Read;
 
 use App\hasDataRange;
 use App\Models\Menu;

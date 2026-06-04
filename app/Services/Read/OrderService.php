@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Read;
 
 use App\hasDataRange;
 use App\Models\Order;
@@ -25,6 +25,11 @@ class OrderService {
         });
     }
 
+    public function getRecentOrders(int $limit): array
+    {
+        return $this->queryRecentOrder($limit);
+    }
+    
     private function queryCompletedOrdersCount(string $timeframe): int
     {
         return Order::where('payment_status', 'paid')
@@ -46,4 +51,14 @@ class OrderService {
             ->toArray();
     }
     
+    private function queryRecentOrder(int $limit): array
+    {
+        return Order::orderByDesc('created_at')
+            ->limit($limit)
+            ->get()
+            ->map(fn($order) => array_merge($order->toArray(), [
+                'created_at' => $order->created_at->locale('id')->translatedFormat('d F Y'),
+            ]))
+            ->toArray();
+    }
 }
