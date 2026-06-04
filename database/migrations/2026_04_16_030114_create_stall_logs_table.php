@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('stall_logs', function (Blueprint $table) {
             $table->id('stall_log_id');
             $table->foreignId('stall_id')->constrained('stalls', 'stall_id');
-            $table->enum('action', ['created', 'updated', 'deleted']);
+            $table->enum('action', ['created', 'updated', 'deleted', 'restored']);
             $table->json('old_data')->nullable();
             $table->json('new_data')->nullable();
             $table->timestamp('created_at')->useCurrent();

@@ -7,11 +7,6 @@ use App\Models\StallLog;
 
 class StallObserver
 {
-    public function creating(Stall $stall)
-    {
-        $stall->stall_code = $stall->generateStallCode();
-    }
-
     public function created(Stall $stall)
     {
         StallLog::create([
@@ -40,6 +35,18 @@ class StallObserver
         ]);
 
         $stall->menus()->delete();
-        $stall->stall_account()->delete();
+        $stall->stallAccount()->delete();
+    }
+
+    public function restored(Stall $stall)
+    {
+        StallLog::create([
+            'stall_id' => $stall->stall_id,
+            'action' => 'restored',
+            'new_data' => $stall->toJson(),
+        ]);
+
+        $stall->menus()->restore();
+        $stall->stallAccount()->restore();
     }
 }
