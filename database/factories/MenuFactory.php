@@ -25,6 +25,7 @@ class MenuFactory extends Factory
             'image_path'       => $this->faker->imageUrl(),
             'price'       => $this->faker->numberBetween(5000, 50000),
             'is_available'=> $this->faker->boolean(),
+            'category'    => $this->faker->randomElement(['nasi', 'sate', 'lauk', 'minuman']),
         ];
     }
 }
