@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Menu extends Model
 {
     use SoftDeletes, HasFactory;
-    
+
     protected $table = 'menus';
     protected $primaryKey = 'menu_id';
 
@@ -17,21 +17,26 @@ class Menu extends Model
         'stall_id',
         'name',
         'description',
-        'image',
+        'image_path',
         'price',
         'is_chef_favorite',
         'is_available',
+        'is_chef_recommendation',
+        'category',
     ];
 
-    public function stall() {
+    public function stall()
+    {
         return $this->belongsTo(Stall::class, 'stall_id', 'stall_id');
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(OrderItem::class, 'menu_id', 'menu_id');
     }
 
-    public function menuLogs() {
+    public function menuLogs()
+    {
         return $this->hasMany(MenuLog::class, 'menu_id', 'menu_id');
     }
 }

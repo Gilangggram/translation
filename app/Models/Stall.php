@@ -12,14 +12,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Stall extends Model
 {
-    use HasUuids, SoftDeletes, HasFactory;
+    use SoftDeletes, HasFactory;
 
     protected $table = 'stalls';
     protected $primaryKey = 'stall_id';
-    public $incrementing = false;
-    protected $keyType = 'string';
 
     protected $fillable = [
+        'stall_code',
         'name',
         'owner_name',
         'is_open',

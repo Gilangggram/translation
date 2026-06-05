@@ -19,7 +19,7 @@ class TableFactory extends Factory
     {
         return [
             'table_number'      => $this->faker->unique()->numberBetween(1, 100),
-            'is_available'      => $this->faker->boolean(),
+            'is_available'      => true,
         ];
     }
 }

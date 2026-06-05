@@ -34,4 +34,13 @@ class MenuObserver
             'old_data' => $menu->toJson(),
         ]);
     }
+
+    public function restored(Menu $menu)
+    {
+        MenuLog::create([
+            'menu_id' => $menu->menu_id,
+            'action' => 'restored',
+            'new_data' => $menu->toJson(),
+        ]);
+    }
 }

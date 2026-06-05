@@ -24,7 +24,7 @@ class OrderFactory extends Factory
             'customer_id'       => Customer::factory(),
             'order_type'        => $this->faker->randomElement(['dine_in', 'delivery']),
             'order_number'      => $this->faker->unique()->numerify('DP-########'),
-            'table_id'          => Table::factory(),
+            'table_id'          => Table::inRandomOrder()->first()?->table_id ?? Table::factory(),
             'customer_address'  => $this->faker->optional()->address(),
             'total_price'       => $this->faker->numberBetween(10000, 500000),
             'payment_status'    => $this->faker->randomElement(['pending', 'paid', 'cancelled']),
