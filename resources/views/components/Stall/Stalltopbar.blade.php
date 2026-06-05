@@ -7,14 +7,24 @@
             <i class="bi bi-list text-[20px]"></i>
         </button>
 
+        @php
+            $pageTitle = 'Dashboard';
+            if (request()->routeIs('stall.pesananmasuk')) {
+                $pageTitle = 'Pesanan Masuk';
+            } elseif (request()->routeIs('stall.sales-report')) {
+                $pageTitle = 'Laporan Penjualan';
+            }
+        @endphp
         <div class="flex flex-col justify-center">
             <h1 class="text-[16px] font-extrabold text-[#2C1A0E] tracking-tight leading-none flex items-center gap-2">
-                <span>De' Pallet Cafe</span>
-                @if(isset($stall) && $stall)
-                    <span class="px-2.5 py-0.5 rounded-full bg-[#FAF2E8] text-[#532E1C] border border-[#532E1C]/10 text-[10px] font-bold tracking-wide uppercase">{{ $stall->name }}</span>
-                @else
-                    <span class="px-2.5 py-0.5 rounded-full bg-[#FAF2E8] text-[#532E1C] border border-[#532E1C]/10 text-[10px] font-bold tracking-wide uppercase">Stall</span>
-                @endif
+                <span>{{ $pageTitle }}</span>
+                <span class="text-[#80756A] text-[11px] font-bold tracking-wide uppercase flex items-center gap-1.5 before:content-['|'] before:text-[#E5DCCE] before:font-light">
+                    @if(isset($stall) && $stall)
+                        {{ $stall->name }}
+                    @else
+                        Stall
+                    @endif
+                </span>
             </h1>
             <p class="text-[11px] font-normal text-[#80756A] leading-none mt-[6px]">Selamat datang kembali, Partner!</p>
         </div>

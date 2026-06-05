@@ -30,7 +30,8 @@
                     </a>
 
                     <!-- 4. Laporan Penjualan -->
-                    <a href="#" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all text-white/60 hover:text-[#F5F2F0] hover:bg-white/5">
+                    <a href="{{ route('stall.sales-report') }}" class="px-2 py-2 flex items-center gap-3 font-manrope text-sm rounded-sm transition-all
+                        {{ request()->routeIs('stall.sales-report') ? 'text-white font-medium bg-white/10' : 'text-white/60 hover:text-[#F5F2F0] hover:bg-white/5' }}">
                         <i class="bi bi-bar-chart-line text-sm"></i> Laporan Penjualan
                     </a>
                 </nav>

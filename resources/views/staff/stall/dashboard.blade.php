@@ -9,7 +9,7 @@
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px]">
 
         {{-- Card 1 — Total Pesanan --}}
-        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
+        <div class="bg-white rounded-none border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
             
             <div class="flex flex-col gap-1">
                 <span class="text-[10px] font-bold text-[#80756A] tracking-[0.1em] uppercase">TOTAL PESANAN</span>
@@ -17,16 +17,30 @@
             </div>
             
             <div class="mt-[16px] pt-[12px] border-t border-[#F5EDE4] flex items-center justify-between">
-                <span class="text-[12px] text-[#80756A] font-medium">Semua transaksi</span>
-                <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-[#EBF7EE] text-[#2E7D32] text-[11px] font-bold">
-                    <i class="ti ti-circle-check text-[12px]"></i>
-                    Aktif
+                <span class="text-[12px] text-[#80756A] font-medium">
+                    @if($kpiDays === 7)
+                        7 Hari Terakhir
+                    @elseif($kpiDays === 30)
+                        30 Hari Terakhir
+                    @else
+                        12 Bulan Terakhir
+                    @endif
                 </span>
+                <div class="relative inline-flex items-center">
+                    <select onchange="filterKPI(this.value)" class="appearance-none bg-[#FAF8F5] border border-[#D8CFC7] rounded-none text-[10px] text-[#2C1A0E] pl-2 pr-5 py-0.5 font-bold cursor-pointer focus:outline-none focus:border-[#532E1C] transition-colors select-none">
+                        <option value="7" {{ $kpiDays === 7 ? 'selected' : '' }}>7 Hari</option>
+                        <option value="30" {{ $kpiDays === 30 ? 'selected' : '' }}>30 Hari</option>
+                        <option value="365" {{ $kpiDays === 365 ? 'selected' : '' }}>12 Bulan</option>
+                    </select>
+                    <span class="absolute inset-y-0 right-0 flex items-center pr-1.5 pointer-events-none text-[#80756A] text-[8px]">
+                        <i class="ti ti-chevron-down"></i>
+                    </span>
+                </div>
             </div>
         </div>
 
         {{-- Card 2 — Total Pendapatan --}}
-        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
+        <div class="bg-white rounded-none border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
             
             <div class="flex flex-col gap-1">
                 <span class="text-[10px] font-bold text-[#80756A] tracking-[0.1em] uppercase">TOTAL PENDAPATAN</span>
@@ -34,16 +48,30 @@
             </div>
             
             <div class="mt-[16px] pt-[12px] border-t border-[#F5EDE4] flex items-center justify-between">
-                <span class="text-[12px] text-[#80756A] font-medium">Pendapatan kotor</span>
-                <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-[#EBF7EE] text-[#2E7D32] text-[11px] font-bold">
-                    <i class="ti ti-trending-up text-[12px]"></i>
-                    Terbayar
+                <span class="text-[12px] text-[#80756A] font-medium">
+                    @if($kpiDays === 7)
+                        7 Hari Terakhir
+                    @elseif($kpiDays === 30)
+                        30 Hari Terakhir
+                    @else
+                        12 Bulan Terakhir
+                    @endif
                 </span>
+                <div class="relative inline-flex items-center">
+                    <select onchange="filterKPI(this.value)" class="appearance-none bg-[#FAF8F5] border border-[#D8CFC7] rounded-none text-[10px] text-[#2C1A0E] pl-2 pr-5 py-0.5 font-bold cursor-pointer focus:outline-none focus:border-[#532E1C] transition-colors select-none">
+                        <option value="7" {{ $kpiDays === 7 ? 'selected' : '' }}>7 Hari</option>
+                        <option value="30" {{ $kpiDays === 30 ? 'selected' : '' }}>30 Hari</option>
+                        <option value="365" {{ $kpiDays === 365 ? 'selected' : '' }}>12 Bulan</option>
+                    </select>
+                    <span class="absolute inset-y-0 right-0 flex items-center pr-1.5 pointer-events-none text-[#80756A] text-[8px]">
+                        <i class="ti ti-chevron-down"></i>
+                    </span>
+                </div>
             </div>
         </div>
 
         {{-- Card 3 — Pesanan Masuk --}}
-        <a href="{{ route('stall.pesananmasuk') }}" class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
+        <a href="{{ route('stall.pesananmasuk') }}" class="bg-white rounded-none border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
             
             <div class="flex flex-col gap-1">
                 <span class="text-[10px] font-bold text-[#80756A] tracking-[0.1em] uppercase">PESANAN MASUK</span>
@@ -67,7 +95,7 @@
         </a>
 
         {{-- Card 4 — Menu Tersedia --}}
-        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
+        <div class="bg-white rounded-none border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
             
             <div class="flex flex-col gap-1">
                 <span class="text-[10px] font-bold text-[#80756A] tracking-[0.1em] uppercase">MENU TERSEDIA</span>
@@ -98,26 +126,31 @@
     <section class="grid grid-cols-1 lg:grid-cols-10 gap-[16px]">
 
         {{-- Left: Tren Pendapatan (60%) --}}
-        <div class="lg:col-span-6 bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] flex flex-col shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)]">
+        <div class="lg:col-span-6 bg-white rounded-none border border-[#E5DCCE] p-[1.25rem] flex flex-col shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)]">
             <div class="flex justify-between items-center mb-[14px]">
                 <div class="flex items-center gap-2">
                     <span class="w-[3px] h-[15px] bg-[#532E1C] rounded-full"></span>
                     <span class="text-[15px] font-bold text-[#2C1A0E]">Tren Pendapatan</span>
                 </div>
                 
-                {{-- Dropdown Filter --}}
-                <div class="relative w-[135px] shrink-0">
-                    <select onchange="filterTrendDays(this.value)" class="w-full appearance-none bg-[#FAF7F4] border border-[#E0D8CF] rounded-[8px] text-[11px] text-[#80756A] font-bold px-[10px] py-[4.5px] pr-[24px] focus:outline-none focus:border-[#532E1C] cursor-pointer">
-                        <option value="7" {{ $trendDays === 7 ? 'selected' : '' }}>7 Hari Terakhir</option>
-                        <option value="30" {{ $trendDays === 30 ? 'selected' : '' }}>30 Hari Terakhir</option>
-                    </select>
-                    <span class="absolute inset-y-0 right-0 flex items-center pr-[8px] pointer-events-none text-[#80756A]">
-                        <i class="ti ti-chevron-down text-[10px]"></i>
-                    </span>
+                {{-- Timeframe Button Group Filter --}}
+                <div role="group" class="flex gap-0.5 w-fit bg-[#F5F2F0] border border-[#2C180F] rounded-none p-1 no-print">
+                    <button type="button" onclick="filterTrendDays(7)" 
+                        class="font-manrope text-[11px] px-2 py-0.5 rounded-none transition-all {{ $trendDays === 7 ? 'text-white bg-[#532E1C]' : 'text-[#2C180F] hover:bg-[#D2C2BC] cursor-pointer' }}">
+                        7 Hari
+                    </button>
+                    <button type="button" onclick="filterTrendDays(30)" 
+                        class="font-manrope text-[11px] px-2 py-0.5 rounded-none transition-all {{ $trendDays === 30 ? 'text-white bg-[#532E1C]' : 'text-[#2C180F] hover:bg-[#D2C2BC] cursor-pointer' }}">
+                        30 Hari
+                    </button>
+                    <button type="button" onclick="filterTrendDays(365)" 
+                        class="font-manrope text-[11px] px-2 py-0.5 rounded-none transition-all {{ $trendDays === 365 ? 'text-white bg-[#532E1C]' : 'text-[#2C180F] hover:bg-[#D2C2BC] cursor-pointer' }}">
+                        12 Bulan
+                    </button>
                 </div>
             </div>
 
-            {{-- SVG Chart --}}
+            {{-- Chart.js Line Chart --}}
             <div class="w-full h-[170px] relative mt-2" id="revenue-chart-wrapper">
                 @php
                     $hasData = collect($points)->sum('amount') > 0;
@@ -130,103 +163,35 @@
                     <span class="text-[12px] font-semibold opacity-60">Belum ada data pendapatan minggu ini</span>
                 </div>
                 @else
-                <svg id="revenue-svg" viewBox="0 0 500 155" class="w-full h-full overflow-visible" style="overflow: visible;">
-                    <defs>
-                        <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%"   stop-color="#532E1C" stop-opacity="0.20"/>
-                            <stop offset="100%" stop-color="#532E1C" stop-opacity="0.00"/>
-                        </linearGradient>
-                    </defs>
-
-                    {{-- Grid lines --}}
-                    @for($gl = 0; $gl <= 4; $gl++)
-                    @php $gy = 20 + $gl * 25; @endphp
-                    <line x1="30" y1="{{ $gy }}" x2="450" y2="{{ $gy }}" stroke="#F0EAE1" stroke-width="1" stroke-dasharray="4,4"/>
-                    @endfor
-
-                    {{-- Axis --}}
-                    <line x1="30" y1="120" x2="450" y2="120" stroke="#E5DCCE" stroke-width="1.5" stroke-linecap="round"/>
-
-                    {{-- Tick marks --}}
-                    @foreach($points as $pt)
-                    <line x1="{{ $pt['x'] }}" y1="120" x2="{{ $pt['x'] }}" y2="125" stroke="#D3C7B5" stroke-width="1.5"/>
-                    @endforeach
-
-                    {{-- Area fill --}}
-                    @if($areaPath)
-                    <path d="{{ $areaPath }}" fill="url(#revenueGradient)"/>
-                    @endif
-
-                    {{-- Line --}}
-                    @if($linePath)
-                    <path d="{{ $linePath }}" fill="none" stroke="#532E1C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                    @endif
-
-                    {{-- Dots --}}
-                    @foreach($points as $idx => $pt)
-                        @if($idx === $highestIdx && $pt['amount'] > 0)
-                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="9" fill="#532E1C" fill-opacity="0.12" class="animate-pulse"/>
-                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="4.5" fill="#532E1C" stroke="#FFFFFF" stroke-width="2"
-                            class="chart-dot cursor-pointer"
-                            data-day="{{ $pt['day'] }}" data-amount="{{ number_format($pt['amount'], 0, ',', '.') }}"/>
-                        @elseif($pt['amount'] > 0)
-                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="3.5" fill="#C5A880" stroke="#FFFFFF" stroke-width="1.5"
-                            class="chart-dot cursor-pointer"
-                            data-day="{{ $pt['day'] }}" data-amount="{{ number_format($pt['amount'], 0, ',', '.') }}"/>
-                        @else
-                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="2.5" fill="#D3C7B5" stroke="#FFFFFF" stroke-width="1"
-                            class="chart-dot cursor-pointer"
-                            data-day="{{ $pt['day'] }}" data-amount="0"/>
-                        @endif
-                    @endforeach
-
-                    {{-- X-axis labels (hanya tampil jika label tidak kosong) --}}
-                    @foreach($points as $pt)
-                    @if($pt['day'] !== '')
-                    <text x="{{ $pt['x'] }}" y="142" text-anchor="middle" fill="#80756A" font-size="11" font-weight="bold" font-family="Manrope, sans-serif">{{ $pt['day'] }}</text>
-                    @endif
-                    @endforeach
-
-                    {{-- Y-axis label: max value --}}
-                    @php $maxAmt = collect($points)->max('amount'); @endphp
-                    @if($maxAmt > 0)
-                    <text x="25" y="23" text-anchor="end" fill="#B5A898" font-size="9" font-family="Manrope, sans-serif">{{ number_format($maxAmt/1000, 0) }}k</text>
-                    @endif
-                </svg>
-
-                {{-- Tooltip --}}
-                <div id="chart-tooltip"
-                    class="absolute z-50 bg-[#532E1C] text-white text-[11px] font-bold px-[10px] py-[6px] rounded-[8px] shadow-lg pointer-events-none opacity-0 transition-opacity duration-150 whitespace-nowrap"
-                    style="transform: translate(-50%, -100%) translateY(-10px);">
-                    <span id="tooltip-day"></span>: <span class="text-[#C5A880]">Rp</span> <span id="tooltip-amount"></span>
-                </div>
+                <canvas id="revenue-chart" style="height: 170px;"></canvas>
                 @endif
             </div>
         </div>
 
         {{-- Right: Menu Terlaris Donut (40%) --}}
-        <div class="lg:col-span-4 bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] flex flex-col shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)]">
-            <div class="flex items-center gap-2 mb-[8px]">
-                <span class="w-[3px] h-[15px] bg-[#532E1C] rounded-full"></span>
-                <span class="text-[15px] font-bold text-[#2C1A0E]">Menu Terlaris</span>
+        <div class="lg:col-span-4 bg-white rounded-none border border-[#E5DCCE] p-[1.25rem] flex flex-col shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)] font-manrope">
+            <div class="flex justify-between items-center mb-[8px]">
+                <div class="flex items-center gap-2">
+                    <span class="w-[3px] h-[15px] bg-[#532E1C] rounded-full"></span>
+                    <span class="text-[15px] font-bold text-[#2C1A0E]">Menu Terlaris</span>
+                </div>
+
+                {{-- Timeframe Button Group Filter --}}
+                <div role="group" class="flex gap-0.5 w-fit bg-[#F5F2F0] border border-[#2C180F] rounded-none p-1 no-print">
+                    <button type="button" onclick="filterDonutDays(7)" 
+                        class="font-manrope text-[11px] px-2 py-0.5 rounded-none transition-all {{ $donutDays === 7 ? 'text-white bg-[#532E1C]' : 'text-[#2C1A0E] hover:bg-[#D2C2BC] cursor-pointer' }}">
+                        7 Hari
+                    </button>
+                    <button type="button" onclick="filterDonutDays(30)" 
+                        class="font-manrope text-[11px] px-2 py-0.5 rounded-none transition-all {{ $donutDays === 30 ? 'text-white bg-[#532E1C]' : 'text-[#2C1A0E] hover:bg-[#D2C2BC] cursor-pointer' }}">
+                        30 Hari
+                    </button>
+                    <button type="button" onclick="filterDonutDays(365)" 
+                        class="font-manrope text-[11px] px-2 py-0.5 rounded-none transition-all {{ $donutDays === 365 ? 'text-white bg-[#532E1C]' : 'text-[#2C1A0E] hover:bg-[#D2C2BC] cursor-pointer' }}">
+                        12 Bulan
+                    </button>
+                </div>
             </div>
-
-            @php
-                $c          = 245.04;
-                $gap        = 3;
-                $numSegs    = count($menuData);
-                $usableCirc = $c - ($numSegs * $gap);
-
-                $dash  = [];
-                $off   = [];
-                $cumul = 0;
-                foreach ($menuData as $i => $item) {
-                    $d       = ($item['percentage'] / 100) * $usableCirc;
-                    $dash[]  = $d;
-                    $off[]   = -$cumul;
-                    $cumul  += $d + $gap;
-                }
-            @endphp
 
             @if(empty($menuData))
             <div class="flex-1 flex flex-col items-center justify-center gap-2 text-[#80756A] py-8">
@@ -234,39 +199,22 @@
                 <span class="text-[12px] font-semibold opacity-60 text-center">Belum ada data penjualan</span>
             </div>
             @else
-            {{-- Donut Chart --}}
-            <div class="relative w-full flex justify-center items-center py-[10px]">
-                <svg width="136" height="136" viewBox="0 0 100 100" class="transform -rotate-90 drop-shadow-sm">
-                    {{-- Background --}}
-                    <circle cx="50" cy="50" r="39" fill="transparent" stroke="#F8F5F2" stroke-width="13"/>
-
-                    @php $colors = ['#532E1C', '#C5A880', '#E5DCCE']; @endphp
-
-                    {{-- Segments (render in reverse so segment 1 is on top) --}}
-                    @for($si = count($menuData) - 1; $si >= 0; $si--)
-                    @if(isset($dash[$si]) && $dash[$si] > 0)
-                    <circle cx="50" cy="50" r="39"
-                        fill="transparent"
-                        stroke="{{ $colors[$si] ?? '#CCC' }}"
-                        stroke-width="13"
-                        stroke-dasharray="{{ $dash[$si] }} {{ $c - $dash[$si] }}"
-                        stroke-dashoffset="{{ $off[$si] }}"
-                        stroke-linecap="butt"/>
-                    @endif
-                    @endfor
-                </svg>
+            {{-- Chart.js Donut Chart --}}
+            <div class="relative w-full flex justify-center items-center py-[10px] h-[136px]">
+                <canvas id="best-sellers-chart" style="height: 136px; width: 136px;"></canvas>
 
                 {{-- Center label --}}
-                <div class="absolute flex flex-col items-center justify-center text-center">
+                <div class="absolute flex flex-col items-center justify-center text-center pointer-events-none">
                     <span class="text-[24px] font-extrabold text-[#2C1A0E] leading-none tracking-tight">{{ $menuData[0]['percentage'] ?? 0 }}%</span>
                     <span class="text-[9px] text-[#80756A] font-bold mt-[3px] uppercase tracking-wider">Top Menu</span>
                 </div>
             </div>
 
             {{-- Legend --}}
+            @php $colors = ['#532E1C', '#C5A880', '#E5DCCE']; @endphp
             <div class="flex flex-col gap-[6px] mt-[8px] pt-[10px] border-t border-[#F8F5F2]">
                 @foreach($menuData as $idx => $item)
-                <div class="flex justify-between items-center text-[13px] px-1 hover:bg-[#FAF8F5] rounded-lg py-[5px] transition-colors duration-200">
+                <div class="flex justify-between items-center text-[13px] px-1 hover:bg-[#FAF8F5] rounded-none py-[5px] transition-colors duration-200">
                     <div class="flex items-center gap-[8px]">
                         <span class="w-[8px] h-[8px] rounded-full flex-shrink-0" style="background-color: {{ $colors[$idx] ?? '#CCC' }}"></span>
                         <span class="text-[#80756A] font-semibold truncate max-w-[130px]" title="{{ $item['name'] }}">{{ $item['name'] }}</span>
@@ -287,7 +235,7 @@
 
     {{-- ═══ SECTION 3 — Riwayat Pesanan Selesai ═══ --}}
     <section class="mb-[1rem]">
-        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)]">
+        <div class="bg-white rounded-none border border-[#E5DCCE] p-[1.25rem] shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)]">
             <div class="flex justify-between items-center mb-[14px]">
                 <div class="flex items-center gap-2">
                     <span class="w-[3px] h-[15px] bg-[#532E1C] rounded-full"></span>
@@ -362,41 +310,129 @@
 
 @push('scripts')
 <script>
+function filterKPI(val) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('kpi_days', val);
+    window.location.href = url.toString();
+}
+
 function filterTrendDays(val) {
     const url = new URL(window.location.href);
     url.searchParams.set('trend_days', val);
     window.location.href = url.toString();
 }
 
-(function () {
-    document.addEventListener('DOMContentLoaded', function () {
-        var wrapper = document.getElementById('revenue-chart-wrapper');
-        var tooltip = document.getElementById('chart-tooltip');
-        var tipDay  = document.getElementById('tooltip-day');
-        var tipAmt  = document.getElementById('tooltip-amount');
+function filterDonutDays(val) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('donut_days', val);
+    window.location.href = url.toString();
+}
 
-        if (!wrapper || !tooltip) return;
+document.addEventListener('DOMContentLoaded', function () {
+    // ── 1. Line Chart: Tren Pendapatan ──
+    const trendCanvas = document.getElementById('revenue-chart');
+    if (trendCanvas) {
+        const points = @js($points);
+        const labels = points.map(pt => pt.day);
+        const values = points.map(pt => pt.amount);
 
-        var dots = wrapper.querySelectorAll('.chart-dot');
-        dots.forEach(function (dot) {
-            dot.addEventListener('mouseenter', function () {
-                tipDay.textContent = dot.dataset.day;
-                tipAmt.textContent = dot.dataset.amount;
+        const COLOR      = '#2C180F';
+        const COLOR_BG   = 'rgba(83,46,28,0.10)';
+        const COLOR_GRID = 'rgba(83,46,28,0.08)';
 
-                var rect    = wrapper.getBoundingClientRect();
-                var dotRect = dot.getBoundingClientRect();
-                var leftPx  = dotRect.left - rect.left + dotRect.width / 2;
-                var topPx   = dotRect.top  - rect.top;
-
-                tooltip.style.left    = leftPx + 'px';
-                tooltip.style.top     = topPx  + 'px';
-                tooltip.style.opacity = '1';
-            });
-            dot.addEventListener('mouseleave', function () {
-                tooltip.style.opacity = '0';
-            });
+        new Chart(trendCanvas, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Pendapatan",
+                    data: values,
+                    borderColor: COLOR,
+                    backgroundColor: COLOR_BG,
+                    pointBackgroundColor: COLOR,
+                    pointRadius: 3,
+                    fill: true,
+                    tension: 0.4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { display: false }, 
+                    tooltip: {
+                        backgroundColor: '#2C180F',
+                        titleColor: '#fff',
+                        bodyColor: 'rgba(255,255,255,0.8)',
+                        padding: 10,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: (context) => {
+                                return ` Pendapatan: Rp ${context.parsed.y.toLocaleString('id-ID')}`;
+                            }
+                        }
+                    } 
+                },
+                animation: {
+                    duration: 600,
+                    easing: 'easeInOutQuart',
+                },
+                scales: {
+                    x: { grid: { color: COLOR_GRID }, border: { display: false }, ticks: { maxRotation: 0 } },
+                    y: { min: 0, grid: { color: COLOR_GRID }, border: { display: false } },
+                }
+            }
         });
-    });
-})();
+    }
+
+    // ── 2. Donut Chart: Menu Terlaris ──
+    const sellersCanvas = document.getElementById('best-sellers-chart');
+    if (sellersCanvas) {
+        const menuData = @js($menuData);
+        const labels = menuData.map(item => item.name);
+        const values = menuData.map(item => item.qty);
+
+        new Chart(sellersCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: values,
+                    backgroundColor: ['#532E1C', '#C5A880', '#E5DCCE'],
+                    borderColor: '#ffffff',
+                    borderWidth: 2,
+                    hoverOffset: 6,
+                }]
+            },
+            options: {
+                cutout: '75%',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#2C180F',
+                        titleColor: '#fff',
+                        bodyColor: 'rgba(255,255,255,0.8)',
+                        padding: 10,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: (context) => {
+                                const label = context.label;
+                                return ` ${label}: ${context.parsed} porsi`;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 600,
+                    easing: 'easeInOutQuart',
+                },
+            }
+        });
+    }
+});
 </script>
 @endpush

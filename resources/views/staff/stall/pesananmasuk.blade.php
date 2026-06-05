@@ -28,6 +28,12 @@
                 <span>Dimasak</span>
                 <span class="inline-flex items-center justify-center {{ $filter === 'dimasak' ? 'bg-white/20 text-white' : 'bg-[#F5F0EB] text-[#2C1A0E]' }} rounded-full text-[10px] font-extrabold px-2 py-0.5">{{ $dimasakCount }}</span>
             </a>
+
+            <!-- 4. Selesai -->
+            <a href="{{ route('stall.pesananmasuk', ['filter' => 'selesai', 'search' => $search]) }}" class="flex items-center gap-1.5 px-4 py-2 rounded-full {{ $filter === 'selesai' ? 'bg-[#3B1F0F] text-white shadow-sm hover:opacity-90' : 'bg-white text-[#2C1A0E] hover:bg-[#FAF8F5] hover:text-[#3B1F0F] border border-[#E9E1D8] shadow-2xs' }} text-[13px] font-bold transition-all duration-300 cursor-pointer">
+                <span>Selesai</span>
+                <span class="inline-flex items-center justify-center {{ $filter === 'selesai' ? 'bg-white/20 text-white' : 'bg-[#F5F0EB] text-[#2C1A0E]' }} rounded-full text-[10px] font-extrabold px-2 py-0.5">{{ $selesaiCount }}</span>
+            </a>
         </div>
 
         <!-- Right Side: Search and Live Sync -->
@@ -56,7 +62,7 @@
     <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         
         @forelse($orders as $order)
-        <div class="bg-white border-[0.5px] border-[#E0D8CF] rounded-[12px] p-[1rem_1.25rem] flex flex-col justify-between shadow-[0_4px_20px_-4px_rgba(44,26,14,0.03)] hover:-translate-y-1 hover:shadow-[0_8px_25px_-5px_rgba(44,26,14,0.08)] transition-all duration-300 cursor-pointer" onclick="showOrderDetail(this, event)" data-order="{{ json_encode($order) }}">
+        <div class="bg-white border-[0.5px] border-[#E0D8CF] rounded-none p-[1rem_1.25rem] flex flex-col justify-between shadow-[0_4px_20px_-4px_rgba(44,26,14,0.03)] hover:-translate-y-1 hover:shadow-[0_8px_25px_-5px_rgba(44,26,14,0.08)] transition-all duration-300 cursor-pointer" onclick="showOrderDetail(this, event)" data-order="{{ json_encode($order) }}">
             <!-- ROW 1 — Card Header -->
             <div class="flex justify-between items-center">
                 <div class="flex items-center gap-[8px]">
@@ -175,7 +181,7 @@
         </div>
         @empty
         <!-- Premium Empty State -->
-        <div class="col-span-full flex flex-col items-center justify-center py-16 px-4 text-center bg-white border border-[#E0D8CF] rounded-[12px] shadow-[0_4px_20px_-4px_rgba(44,26,14,0.03)]">
+        <div class="col-span-full flex flex-col items-center justify-center py-16 px-4 text-center bg-white border border-[#E0D8CF] rounded-none shadow-[0_4px_20px_-4px_rgba(44,26,14,0.03)]">
             <div class="w-16 h-16 rounded-full bg-[#FAF8F5] flex items-center justify-center text-[#80756A] mb-4">
                 <i class="ti ti-clipboard-x text-3xl"></i>
             </div>

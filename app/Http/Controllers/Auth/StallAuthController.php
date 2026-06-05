@@ -28,7 +28,10 @@ class StallAuthController extends Controller
         ])->onlyInput('phone_number');
     }
 
-    public function logout() {
-
+    public function logout(Request $request) {
+        Auth::guard('stall')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('stall.login');
     }
 }

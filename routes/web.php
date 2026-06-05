@@ -81,6 +81,8 @@ Route::controller(StallAuthController::class)->prefix('stall')->name('stall')->g
 Route::middleware('auth:stall')->prefix('stall')->name('stall')->group(function () {
     Route::get('/dashboard', [StallController::class, 'dashboard'])->name('.dashboard');
     Route::get('/pesanan-masuk', [StallController::class, 'pesananMasuk'])->name('.pesananmasuk');
+    Route::get('/sales-report', [StallController::class, 'salesReport'])->name('.sales-report');
+    Route::get('/sales-report/export', [StallController::class, 'exportSalesReport'])->name('.sales-report.export');
     Route::post('/order/{order_id}/proses', [StallController::class, 'prosesOrder'])->name('.order.proses');
     Route::post('/order/{order_id}/siap-sajikan', [StallController::class, 'siapSajikanOrder'])->name('.order.siap-sajikan');
     Route::post('/toggle-status', [StallController::class, 'toggleStatus'])->name('.toggle-status');
