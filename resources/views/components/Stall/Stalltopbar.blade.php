@@ -1,30 +1,30 @@
-<header class="relative z-30 w-full h-[72px] bg-[#FAF7F4] border-b-[0.5px] border-[#E8E0D8] px-[1.5rem] py-[10px] flex justify-between items-center select-none shadow-xs">
+<header class="sticky top-0 z-30 w-full h-[72px] bg-white/95 backdrop-blur-xs border-b border-[#FAF2E8] px-[1.5rem] py-[10px] flex justify-between items-center select-none shadow-[0_1px_3px_0_rgba(44,26,14,0.03)]">
     <!-- Left Side: Mobile hamburger + title -->
     <div class="flex items-center gap-3">
         <!-- Mobile Sidebar Toggle (hidden on desktop) -->
         <button data-sidebar-toggle
                 class="lg:hidden flex items-center justify-center w-8 h-8 rounded-lg hover:bg-[#F0EAE1] text-[#2C1A0E] transition-colors duration-200">
-            <i class="ti ti-menu-2 text-[20px]"></i>
+            <i class="bi bi-list text-[20px]"></i>
         </button>
 
         <div class="flex flex-col justify-center">
-            <h1 class="text-[17px] font-bold text-[#2C1A0E] tracking-tight leading-tight">
-                De' Pallet
+            <h1 class="text-[16px] font-extrabold text-[#2C1A0E] tracking-tight leading-none flex items-center gap-2">
+                <span>De' Pallet Cafe</span>
                 @if(isset($stall) && $stall)
-                    — {{ $stall->name }}
+                    <span class="px-2.5 py-0.5 rounded-full bg-[#FAF2E8] text-[#532E1C] border border-[#532E1C]/10 text-[10px] font-bold tracking-wide uppercase">{{ $stall->name }}</span>
                 @else
-                    — Panel Stall
+                    <span class="px-2.5 py-0.5 rounded-full bg-[#FAF2E8] text-[#532E1C] border border-[#532E1C]/10 text-[10px] font-bold tracking-wide uppercase">Stall</span>
                 @endif
             </h1>
-            <p class="text-[12px] font-normal text-[#80756A] leading-none mt-[2.5px]">Selamat datang kembali, Partner!</p>
+            <p class="text-[11px] font-normal text-[#80756A] leading-none mt-[6px]">Selamat datang kembali, Partner!</p>
         </div>
     </div>
 
     <!-- Right Side -->
     <div class="flex items-center gap-[20px]">
         <!-- Status Order Section -->
-        <div class="flex items-center gap-[10px] border-r border-[#E8E0D8] pr-[16px] h-[24px]">
-            <span class="hidden sm:block text-[10px] font-bold tracking-[0.08em] text-[#80756A] uppercase">STATUS:</span>
+        <div class="flex items-center gap-[12px] border-r border-[#FAF2E8] pr-[20px] h-[28px]">
+            <span class="hidden sm:block text-[10px] font-bold tracking-[0.08em] text-[#80756A] uppercase">STATUS STALL:</span>
             
             @if(isset($stall) && $stall)
             <form id="form-toggle-status" action="{{ route('stall.toggle-status') }}" method="POST" class="m-0 p-0 flex items-center">
@@ -32,17 +32,17 @@
                 @php $isOpen = (bool)$stall->is_open; @endphp
                 <!-- Interactive Toggle Switch -->
                 <button type="button" id="btn-toggle-status"
-                        class="flex items-center gap-[8px] cursor-pointer group bg-transparent border-0 p-0 focus:outline-none select-none">
+                        class="flex items-center gap-[10px] cursor-pointer group bg-transparent border-0 p-0 focus:outline-none select-none">
                     <!-- Switch Track -->
                     <div id="switch-container"
-                         class="relative w-[42px] h-[22px] {{ $isOpen ? 'bg-[#3B1F0F]' : 'bg-[#D8CFC7]' }} rounded-full p-[2.5px] transition-colors duration-300 shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] group-hover:scale-105 transform">
+                         class="relative w-[44px] h-[24px] {{ $isOpen ? 'bg-[#532E1C]' : 'bg-[#D8CFC7]' }} rounded-full p-[3px] transition-all duration-300 shadow-[inset_0_2px_4px_rgba(0,0,0,0.08)] group-hover:scale-105 transform">
                         <!-- Switch Dot -->
                         <div id="switch-dot"
-                             class="absolute top-[2.5px] left-[2.5px] w-[17px] h-[17px] bg-white rounded-full transition-transform duration-300 shadow-md {{ $isOpen ? 'translate-x-[20px]' : 'translate-x-0' }}"></div>
+                             class="absolute top-[3px] left-[3px] w-[18px] h-[18px] bg-white rounded-full transition-transform duration-300 shadow-[0_2px_5px_rgba(0,0,0,0.15)] {{ $isOpen ? 'translate-x-[20px]' : 'translate-x-0' }}"></div>
                     </div>
                     <!-- Switch Label -->
                     <span id="switch-label"
-                          class="text-[12px] font-bold {{ $isOpen ? 'text-[#2C1A0E]' : 'text-[#80756A]' }} tracking-wide uppercase transition-colors duration-200 group-hover:text-[#3B1F0F]">
+                          class="text-[11px] font-extrabold {{ $isOpen ? 'text-emerald-700 bg-emerald-50 border border-emerald-200/50' : 'text-[#80756A] bg-[#FAF7F4] border border-[#E0D8CF]/50' }} px-2 py-0.5 rounded-[6px] tracking-wide uppercase transition-all duration-200 group-hover:shadow-xs">
                         {{ $isOpen ? 'OPEN' : 'CLOSE' }}
                     </span>
                 </button>
@@ -53,10 +53,10 @@
         </div>
 
         <!-- Bell Notification Icon -->
-        <div class="relative cursor-pointer p-[6px] hover:bg-[#F5F0EB] rounded-full transition-colors duration-300 group">
-            <i class="ti ti-bell text-[20px] text-[#2C1A0E] group-hover:rotate-[12deg] transition-transform duration-300 block"></i>
+        <div class="relative cursor-pointer w-9 h-9 bg-white border border-[#FAF2E8] hover:bg-[#FAF7F4] rounded-xl flex items-center justify-center transition-all duration-300 shadow-sm group">
+            <i class="bi bi-bell text-[16px] text-[#2C1A0E] group-hover:rotate-[12deg] transition-transform duration-300 block"></i>
             <!-- Notification Dot Badge -->
-            <span class="absolute top-[5px] right-[5px] w-[7px] h-[7px] bg-red-600 rounded-full border border-[#FAF7F4] shadow-md animate-pulse"></span>
+            <span class="absolute top-[3px] right-[3px] w-[8px] h-[8px] bg-red-500 rounded-full border-2 border-white shadow-sm animate-pulse"></span>
         </div>
     </div>
 </header>
@@ -79,7 +79,7 @@
             isPending = true;
 
             // Detect current visual state
-            const wasOpen = container.classList.contains('bg-[#3B1F0F]');
+            const wasOpen = container.classList.contains('bg-[#532E1C]');
             const nextOpen = !wasOpen;
 
             // 1. Optimistic UI — update immediately for snappy feel
@@ -118,14 +118,14 @@
 
         function applyState(isOpen) {
             if (isOpen) {
-                container.classList.replace('bg-[#D8CFC7]', 'bg-[#3B1F0F]');
+                container.classList.replace('bg-[#D8CFC7]', 'bg-[#532E1C]');
                 dot.classList.replace('translate-x-0', 'translate-x-[20px]');
-                label.classList.replace('text-[#80756A]', 'text-[#2C1A0E]');
+                label.className = "text-[11px] font-extrabold text-emerald-700 bg-emerald-50 border border-emerald-200/50 px-2 py-0.5 rounded-[6px] tracking-wide uppercase transition-all duration-200 group-hover:shadow-xs";
                 label.textContent = 'OPEN';
             } else {
-                container.classList.replace('bg-[#3B1F0F]', 'bg-[#D8CFC7]');
+                container.classList.replace('bg-[#532E1C]', 'bg-[#D8CFC7]');
                 dot.classList.replace('translate-x-[20px]', 'translate-x-0');
-                label.classList.replace('text-[#2C1A0E]', 'text-[#80756A]');
+                label.className = "text-[11px] font-extrabold text-[#80756A] bg-[#FAF7F4] border border-[#E0D8CF]/50 px-2 py-0.5 rounded-[6px] tracking-wide uppercase transition-all duration-200 group-hover:shadow-xs";
                 label.textContent = 'CLOSE';
             }
         }

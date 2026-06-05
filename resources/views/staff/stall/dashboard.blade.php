@@ -3,68 +3,62 @@
 @section('title', "De' Pallet — Panel Stall")
 
 @section('content')
-<div class="text-[#2C1A0E] font-manrope selection:bg-[#3B1F0F]/10 selection:text-[#3B1F0F] flex flex-col p-[1.5rem] gap-[1.5rem]">
+<div class="text-[#2C1A0E] font-manrope selection:bg-[#532E1C]/10 selection:text-[#532E1C] flex flex-col p-[1.5rem] gap-[1.5rem]">
 
     {{-- ═══ SECTION 1 — KPI Cards ═══ --}}
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px]">
 
         {{-- Card 1 — Total Pesanan --}}
-        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] flex flex-col justify-between shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)] hover:-translate-y-1 hover:shadow-[0_8px_25px_-5px_rgba(44,26,14,0.1)] transition-all duration-300">
-            <div class="flex justify-between items-center">
-                <span class="text-[11px] font-bold text-[#80756A] tracking-[0.08em] uppercase">TOTAL PESANAN</span>
-                <div class="w-7 h-7 bg-[#F5F0EB] rounded-lg flex items-center justify-center">
-                    <i class="ti ti-clipboard-list text-[16px] text-[#80756A]"></i>
-                </div>
+        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
+            
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-bold text-[#80756A] tracking-[0.1em] uppercase">TOTAL PESANAN</span>
+                <span class="text-[32px] font-extrabold text-[#2C1A0E] tracking-tight leading-none mt-2">{{ number_format($totalOrders) }}</span>
             </div>
-            <div class="mt-[12px] mb-[10px]">
-                <span class="text-[32px] font-bold text-[#2C1A0E] tracking-tight leading-none">{{ number_format($totalOrders) }}</span>
-            </div>
-            <div>
+            
+            <div class="mt-[16px] pt-[12px] border-t border-[#F5EDE4] flex items-center justify-between">
+                <span class="text-[12px] text-[#80756A] font-medium">Semua transaksi</span>
                 <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-[#EBF7EE] text-[#2E7D32] text-[11px] font-bold">
-                    <i class="ti ti-shopping-bag text-[12px]"></i>
-                    Semua Transaksi
+                    <i class="ti ti-circle-check text-[12px]"></i>
+                    Aktif
                 </span>
             </div>
         </div>
 
         {{-- Card 2 — Total Pendapatan --}}
-        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] flex flex-col justify-between shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)] hover:-translate-y-1 hover:shadow-[0_8px_25px_-5px_rgba(44,26,14,0.1)] transition-all duration-300">
-            <div class="flex justify-between items-center">
-                <span class="text-[11px] font-bold text-[#80756A] tracking-[0.08em] uppercase">TOTAL PENDAPATAN</span>
-                <div class="w-7 h-7 bg-[#F5F0EB] rounded-lg flex items-center justify-center">
-                    <i class="ti ti-cash text-[16px] text-[#80756A]"></i>
-                </div>
+        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
+            
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-bold text-[#80756A] tracking-[0.1em] uppercase">TOTAL PENDAPATAN</span>
+                <span class="text-[26px] font-extrabold text-[#2C1A0E] tracking-tight leading-none mt-2">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</span>
             </div>
-            <div class="mt-[12px] mb-[10px]">
-                <span class="text-[28px] font-bold text-[#2C1A0E] tracking-tight leading-none">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</span>
-            </div>
-            <div>
+            
+            <div class="mt-[16px] pt-[12px] border-t border-[#F5EDE4] flex items-center justify-between">
+                <span class="text-[12px] text-[#80756A] font-medium">Pendapatan kotor</span>
                 <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-[#EBF7EE] text-[#2E7D32] text-[11px] font-bold">
                     <i class="ti ti-trending-up text-[12px]"></i>
-                    Pendapatan Terbayar
+                    Terbayar
                 </span>
             </div>
         </div>
 
-        {{-- Card 3 — Pesanan Masuk (Highlighted) --}}
-        <a href="{{ route('stall.pesananmasuk') }}" class="bg-gradient-to-br from-[#D4B791] to-[#B8966A] rounded-[16px] border border-[#B8966A] p-[1.25rem] flex flex-col justify-between shadow-[0_6px_20px_rgba(184,150,106,0.25)] hover:-translate-y-1 hover:shadow-[0_10px_28px_rgba(184,150,106,0.4)] transition-all duration-300 text-white cursor-pointer group">
-            <div class="flex justify-between items-center">
-                <span class="text-[11px] font-bold text-[#F5ECD7] tracking-[0.08em] uppercase">PESANAN MASUK</span>
-                <div class="w-7 h-7 bg-white/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <i class="ti ti-clock text-[16px] text-[#F5ECD7]"></i>
-                </div>
+        {{-- Card 3 — Pesanan Masuk --}}
+        <a href="{{ route('stall.pesananmasuk') }}" class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
+            
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-bold text-[#80756A] tracking-[0.1em] uppercase">PESANAN MASUK</span>
+                <span class="text-[32px] font-extrabold text-[#2C1A0E] tracking-tight leading-none mt-2">{{ sprintf('%02d', $incomingOrdersCount) }}</span>
             </div>
-            <div class="mt-[10px] mb-[8px]">
-                <span class="text-[40px] font-bold text-white tracking-tight leading-none">{{ sprintf('%02d', $incomingOrdersCount) }}</span>
-            </div>
-            <div>
+            
+            <div class="mt-[16px] pt-[12px] border-t border-[#F5EDE4] flex items-center justify-between">
+                <span class="text-[12px] text-[#80756A] font-medium">Antrian aktif</span>
                 @if($incomingOrdersCount > 0)
-                <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-white/20 text-[#FAF7F4] text-[11px] font-bold tracking-wide uppercase italic">
-                    <i class="ti ti-bolt text-[11px] animate-bounce"></i>
-                    Segera Proses!
+                <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-[#EBF7EE] text-[#2E7D32] text-[11px] font-bold animate-pulse">
+                    <i class="ti ti-bolt text-[11px]"></i>
+                    Segera Proses
                 </span>
                 @else
-                <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-white/20 text-[#FAF7F4] text-[11px] font-bold">
+                <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-[#FAF7F4] text-[#80756A] text-[11px] font-bold border border-[#E0D8CF]">
                     <i class="ti ti-circle-check text-[12px]"></i>
                     Semua Beres
                 </span>
@@ -73,26 +67,26 @@
         </a>
 
         {{-- Card 4 — Menu Tersedia --}}
-        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] flex flex-col justify-between shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)] hover:-translate-y-1 hover:shadow-[0_8px_25px_-5px_rgba(44,26,14,0.1)] transition-all duration-300">
-            <div class="flex justify-between items-center">
-                <span class="text-[11px] font-bold text-[#80756A] tracking-[0.08em] uppercase">MENU TERSEDIA</span>
-                <div class="w-7 h-7 bg-[#F5F0EB] rounded-lg flex items-center justify-center">
-                    <i class="ti ti-tools-kitchen-2 text-[16px] text-[#80756A]"></i>
-                </div>
+        <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.5rem] flex flex-col justify-between shadow-[0_4px_25px_rgba(44,26,14,0.04)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(44,26,14,0.08)] transition-all duration-300 relative overflow-hidden group">
+            
+            <div class="flex flex-col gap-1">
+                <span class="text-[10px] font-bold text-[#80756A] tracking-[0.1em] uppercase">MENU TERSEDIA</span>
+                <span class="text-[32px] font-extrabold text-[#2C1A0E] tracking-tight leading-none mt-2">
+                    {{ $availableMenus }}<span class="text-[18px] text-[#80756A] font-semibold">/{{ $totalMenus }}</span>
+                </span>
             </div>
-            <div class="mt-[12px] mb-[10px]">
-                <span class="text-[32px] font-bold text-[#2C1A0E] tracking-tight leading-none">{{ $availableMenus }}<span class="text-[18px] text-[#80756A] font-semibold">/{{ $totalMenus }}</span></span>
-            </div>
-            <div>
+            
+            <div class="mt-[16px] pt-[12px] border-t border-[#F5EDE4] flex items-center justify-between">
+                <span class="text-[12px] text-[#80756A] font-medium">Kelola ketersediaan</span>
                 @if($totalMenus > $availableMenus)
                 <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-[#FCE8E6] text-[#C62828] text-[11px] font-bold">
                     <i class="ti ti-alert-circle text-[12px] animate-pulse"></i>
-                    {{ $totalMenus - $availableMenus }} Menu Habis
+                    {{ $totalMenus - $availableMenus }} Habis
                 </span>
                 @else
                 <span class="inline-flex items-center gap-[4px] px-[8px] py-[2.5px] rounded-full bg-[#EBF7EE] text-[#2E7D32] text-[11px] font-bold">
                     <i class="ti ti-circle-check text-[12px]"></i>
-                    Semua Menu Ready
+                    Semua Ready
                 </span>
                 @endif
             </div>
@@ -107,10 +101,20 @@
         <div class="lg:col-span-6 bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] flex flex-col shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)]">
             <div class="flex justify-between items-center mb-[14px]">
                 <div class="flex items-center gap-2">
-                    <span class="w-[3px] h-[15px] bg-[#8B6340] rounded-full"></span>
+                    <span class="w-[3px] h-[15px] bg-[#532E1C] rounded-full"></span>
                     <span class="text-[15px] font-bold text-[#2C1A0E]">Tren Pendapatan</span>
                 </div>
-                <span class="text-[11px] text-[#80756A] font-bold bg-[#FAF7F4] border border-[#E0D8CF] px-[10px] py-[4px] rounded-[8px]">{{ $trendLabel }}</span>
+                
+                {{-- Dropdown Filter --}}
+                <div class="relative w-[135px] shrink-0">
+                    <select onchange="filterTrendDays(this.value)" class="w-full appearance-none bg-[#FAF7F4] border border-[#E0D8CF] rounded-[8px] text-[11px] text-[#80756A] font-bold px-[10px] py-[4.5px] pr-[24px] focus:outline-none focus:border-[#532E1C] cursor-pointer">
+                        <option value="7" {{ $trendDays === 7 ? 'selected' : '' }}>7 Hari Terakhir</option>
+                        <option value="30" {{ $trendDays === 30 ? 'selected' : '' }}>30 Hari Terakhir</option>
+                    </select>
+                    <span class="absolute inset-y-0 right-0 flex items-center pr-[8px] pointer-events-none text-[#80756A]">
+                        <i class="ti ti-chevron-down text-[10px]"></i>
+                    </span>
+                </div>
             </div>
 
             {{-- SVG Chart --}}
@@ -129,8 +133,8 @@
                 <svg id="revenue-svg" viewBox="0 0 500 155" class="w-full h-full overflow-visible" style="overflow: visible;">
                     <defs>
                         <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%"   stop-color="#8B6340" stop-opacity="0.20"/>
-                            <stop offset="100%" stop-color="#8B6340" stop-opacity="0.00"/>
+                            <stop offset="0%"   stop-color="#532E1C" stop-opacity="0.20"/>
+                            <stop offset="100%" stop-color="#532E1C" stop-opacity="0.00"/>
                         </linearGradient>
                     </defs>
 
@@ -155,18 +159,18 @@
 
                     {{-- Line --}}
                     @if($linePath)
-                    <path d="{{ $linePath }}" fill="none" stroke="#8B6340" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="{{ $linePath }}" fill="none" stroke="#532E1C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     @endif
 
                     {{-- Dots --}}
                     @foreach($points as $idx => $pt)
                         @if($idx === $highestIdx && $pt['amount'] > 0)
-                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="9" fill="#3B1F0F" fill-opacity="0.12" class="animate-pulse"/>
-                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="4.5" fill="#3B1F0F" stroke="#FFFFFF" stroke-width="2"
+                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="9" fill="#532E1C" fill-opacity="0.12" class="animate-pulse"/>
+                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="4.5" fill="#532E1C" stroke="#FFFFFF" stroke-width="2"
                             class="chart-dot cursor-pointer"
                             data-day="{{ $pt['day'] }}" data-amount="{{ number_format($pt['amount'], 0, ',', '.') }}"/>
                         @elseif($pt['amount'] > 0)
-                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="3.5" fill="#8B6340" stroke="#FFFFFF" stroke-width="1.5"
+                        <circle cx="{{ $pt['x'] }}" cy="{{ $pt['y'] }}" r="3.5" fill="#C5A880" stroke="#FFFFFF" stroke-width="1.5"
                             class="chart-dot cursor-pointer"
                             data-day="{{ $pt['day'] }}" data-amount="{{ number_format($pt['amount'], 0, ',', '.') }}"/>
                         @else
@@ -192,9 +196,9 @@
 
                 {{-- Tooltip --}}
                 <div id="chart-tooltip"
-                    class="absolute z-50 bg-[#3B1F0F] text-white text-[11px] font-bold px-[10px] py-[6px] rounded-[8px] shadow-lg pointer-events-none opacity-0 transition-opacity duration-150 whitespace-nowrap"
+                    class="absolute z-50 bg-[#532E1C] text-white text-[11px] font-bold px-[10px] py-[6px] rounded-[8px] shadow-lg pointer-events-none opacity-0 transition-opacity duration-150 whitespace-nowrap"
                     style="transform: translate(-50%, -100%) translateY(-10px);">
-                    <span id="tooltip-day"></span>: <span class="text-[#D4B791]">Rp</span> <span id="tooltip-amount"></span>
+                    <span id="tooltip-day"></span>: <span class="text-[#C5A880]">Rp</span> <span id="tooltip-amount"></span>
                 </div>
                 @endif
             </div>
@@ -203,7 +207,7 @@
         {{-- Right: Menu Terlaris Donut (40%) --}}
         <div class="lg:col-span-4 bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] flex flex-col shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)]">
             <div class="flex items-center gap-2 mb-[8px]">
-                <span class="w-[3px] h-[15px] bg-[#3B1F0F] rounded-full"></span>
+                <span class="w-[3px] h-[15px] bg-[#532E1C] rounded-full"></span>
                 <span class="text-[15px] font-bold text-[#2C1A0E]">Menu Terlaris</span>
             </div>
 
@@ -236,7 +240,7 @@
                     {{-- Background --}}
                     <circle cx="50" cy="50" r="39" fill="transparent" stroke="#F8F5F2" stroke-width="13"/>
 
-                    @php $colors = ['#3B1F0F', '#C9A87C', '#E8DCC8']; @endphp
+                    @php $colors = ['#532E1C', '#C5A880', '#E5DCCE']; @endphp
 
                     {{-- Segments (render in reverse so segment 1 is on top) --}}
                     @for($si = count($menuData) - 1; $si >= 0; $si--)
@@ -286,10 +290,10 @@
         <div class="bg-white rounded-[16px] border border-[#E5DCCE] p-[1.25rem] shadow-[0_4px_20px_-4px_rgba(44,26,14,0.06)]">
             <div class="flex justify-between items-center mb-[14px]">
                 <div class="flex items-center gap-2">
-                    <span class="w-[3px] h-[15px] bg-[#8B6340] rounded-full"></span>
+                    <span class="w-[3px] h-[15px] bg-[#532E1C] rounded-full"></span>
                     <span class="text-[15px] font-bold text-[#2C1A0E]">Riwayat Pesanan Selesai <span class="text-[#80756A] font-normal">(Terbaru)</span></span>
                 </div>
-                <a href="{{ route('stall.pesananmasuk') }}" class="text-[12px] text-[#80756A] font-bold hover:text-[#3B1F0F] underline transition-colors">
+                <a href="{{ route('stall.pesananmasuk') }}" class="text-[12px] text-[#80756A] font-bold hover:text-[#532E1C] underline transition-colors">
                     Lihat Antrian →
                 </a>
             </div>
@@ -358,6 +362,12 @@
 
 @push('scripts')
 <script>
+function filterTrendDays(val) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('trend_days', val);
+    window.location.href = url.toString();
+}
+
 (function () {
     document.addEventListener('DOMContentLoaded', function () {
         var wrapper = document.getElementById('revenue-chart-wrapper');

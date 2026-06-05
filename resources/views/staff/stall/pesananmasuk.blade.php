@@ -61,12 +61,16 @@
             <div class="flex justify-between items-center">
                 <div class="flex items-center gap-[8px]">
                     @if($order->stall_status === 'MENUNGGU')
-                    <span class="inline-flex items-center justify-center bg-[#FDECEA] text-[#C0392B] text-[11px] font-medium px-[10px] py-[3px] rounded-[99px] select-none">
+                    <span class="inline-flex items-center justify-center bg-[#FDECEA] text-[#C0392B] text-[11px] font-semibold px-[10px] py-[3px] rounded-[99px] select-none">
                         MENUNGGU
                     </span>
-                    @else
-                    <span class="inline-flex items-center justify-center bg-[#FFF9E6] text-[#B8966A] text-[11px] font-medium px-[10px] py-[3px] rounded-[99px] select-none">
+                    @elseif($order->stall_status === 'DIMASAK')
+                    <span class="inline-flex items-center justify-center bg-[#FFF9E6] text-[#B8966A] text-[11px] font-semibold px-[10px] py-[3px] rounded-[99px] select-none">
                         DIMASAK
+                    </span>
+                    @else
+                    <span class="inline-flex items-center justify-center bg-[#EBF7EE] text-[#2E7D32] text-[11px] font-semibold px-[10px] py-[3px] rounded-[99px] select-none">
+                        SELESAI
                     </span>
                     @endif
                     <span class="text-[13px] font-bold text-[#2C1A0E]">{{ str_starts_with($order->order_number, '#') ? $order->order_number : '#' . $order->order_number }}</span>
@@ -112,10 +116,10 @@
                 <div class="flex flex-col gap-[6px] shrink-0 select-none">
                     <span class="text-[10px] font-bold text-[#9E9E9E] tracking-[0.05em] uppercase">STATUS PESANAN</span>
                     <div class="relative w-[120px]">
-                        <select onchange="handleStatusChange(this, '{{ $order->order_id }}')" class="w-full appearance-none bg-white border-[0.5px] border-[#D8CFC7] rounded-[8px] text-[13px] text-[#2C1A0E] px-[10px] py-[6px] pr-[28px] focus:outline-none focus:border-[#3B1F0F] font-semibold cursor-pointer">
+                        <select onchange="handleStatusChange(this, '{{ $order->order_id }}')" class="w-full appearance-none bg-white border-[0.5px] border-[#D8CFC7] rounded-[8px] text-[13px] text-[#2C1A0E] px-[10px] py-[6px] pr-[28px] focus:outline-none focus:border-[#532E1C] font-semibold cursor-pointer">
                             <option value="Menunggu" {{ $order->stall_status === 'MENUNGGU' ? 'selected' : '' }}>Menunggu</option>
                             <option value="Dimasak" {{ $order->stall_status === 'DIMASAK' ? 'selected' : '' }}>Dimasak</option>
-                            <option value="Selesai">Selesai</option>
+                            <option value="Selesai" {{ $order->stall_status === 'SELESAI' ? 'selected' : '' }}>Selesai</option>
                         </select>
                         <span class="absolute inset-y-0 right-0 flex items-center pr-[10px] pointer-events-none text-[#9E9E9E]">
                             <i class="ti ti-chevron-down text-[12px]"></i>
@@ -134,7 +138,7 @@
                     <span class="text-[10px] font-bold text-[#9E9E9E] uppercase tracking-wider leading-none mt-[2px]">PESANAN</span>
                     <div class="flex items-baseline text-[#3B1F0F] mt-[6px]">
                         <span class="text-[12px] font-bold mr-[2px]">Rp</span>
-                        <span class="text-[16px] font-bold text-[#3B1F0F]">{{ number_format($order->total_price, 0, ',', '.') }}</span>
+                        <span class="text-[16px] font-bold text-[#3B1F0F]">{{ number_format($order->stall_total_price, 0, ',', '.') }}</span>
                     </div>
                 </div>
 
@@ -142,7 +146,7 @@
                 @if($order->stall_status === 'MENUNGGU')
                 <form id="form-proses-{{ $order->order_id }}" action="{{ route('stall.order.proses', $order->order_id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="w-[140px] h-[42px] px-[20px] py-[10px] bg-[#3B1F0F] text-white flex items-center justify-center gap-[8px] rounded-[8px] text-[14px] font-medium transition-all duration-200 border-0 cursor-pointer hover:bg-[#C9A87C] hover:text-[#3B1F0F] hover:scale-[1.02] hover:shadow-xs">
+                    <button type="submit" class="w-[140px] h-[42px] px-[20px] py-[10px] bg-[#532E1C] text-white flex items-center justify-center gap-[8px] rounded-[8px] text-[14px] font-medium transition-all duration-200 border-0 cursor-pointer hover:bg-[#C5A880] hover:text-[#532E1C] hover:scale-[1.02] hover:shadow-xs">
                         <i class="ti ti-chef-hat text-[16px] text-white"></i>
                         <span>Proses</span>
                     </button>
@@ -150,7 +154,7 @@
                 <form id="form-siap-sajikan-{{ $order->order_id }}" action="{{ route('stall.order.siap-sajikan', $order->order_id) }}" method="POST" class="hidden">
                     @csrf
                 </form>
-                @else
+                @elseif($order->stall_status === 'DIMASAK')
                 <form id="form-proses-{{ $order->order_id }}" action="{{ route('stall.order.proses', $order->order_id) }}" method="POST" class="hidden">
                     @csrf
                 </form>
@@ -161,6 +165,11 @@
                         <span>Siap Sajikan</span>
                     </button>
                 </form>
+                @else
+                <div class="inline-flex items-center gap-[4px] px-[12px] py-[8px] rounded-lg bg-[#EBF7EE] text-[#2E7D32] text-[13px] font-bold">
+                    <i class="ti ti-circle-check text-[14px]"></i>
+                    Selesai Disajikan
+                </div>
                 @endif
             </div>
         </div>

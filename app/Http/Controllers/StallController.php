@@ -31,17 +31,24 @@ class StallController extends Controller
         }
         $stallId = $stall->stall_id;
 
-        // ── KPI 1: Total Pesanan (semua order aktif, bukan cancelled) ──
-        $totalOrders = Order::whereNotIn('payment_status', ['cancelled'])->count();
+        // ── KPI 1: Total Pesanan (semua order aktif yang berisi menu stall ini, bukan cancelled) ──
+        $totalOrders = Order::whereNotIn('payment_status', ['cancelled'])
+            ->whereHas('orderItems.menu', function ($q) use ($stallId) {
+                $q->where('stall_id', $stallId);
+            })
+            ->count();
 
         // ── KPI 2: Total Pendapatan stall ini (order paid) ──
         $totalRevenue = OrderItem::whereHas('menu', fn($q) => $q->where('stall_id', $stallId))
             ->whereHas('order', fn($q) => $q->where('payment_status', 'paid'))
             ->sum('total_price');
 
-        // ── KPI 3: Pesanan Masuk — semua order aktif yang belum selesai ──
+        // ── KPI 3: Pesanan Masuk — semua order aktif yang belum selesai yang berisi menu stall ini ──
         $incomingOrdersCount = Order::where('is_completed', false)
             ->whereNotIn('payment_status', ['cancelled'])
+            ->whereHas('orderItems.menu', function ($q) use ($stallId) {
+                $q->where('stall_id', $stallId);
+            })
             ->count();
 
         // ── KPI 4: Menu Tersedia / Total (spesifik stall ini) ──
@@ -68,48 +75,37 @@ class StallController extends Controller
             }
         }
 
-        // Fallback jika belum ada transaksi
-        if (empty($menuData)) {
-            $stallMenus = Menu::where('stall_id', $stallId)->take(3)->get();
-            $dummyPercs = [45, 30, 25];
-            foreach ($stallMenus as $idx => $m) {
-                $menuData[] = ['name' => $m->name, 'qty' => $dummyPercs[$idx] ?? 10];
-                $totalSold  += $dummyPercs[$idx] ?? 10;
+        if (!empty($menuData)) {
+            $remaining = 100;
+            foreach ($menuData as $idx => &$item) {
+                if ($idx === count($menuData) - 1) {
+                    $item['percentage'] = max(0, $remaining);
+                } else {
+                    $perc               = $totalSold > 0 ? round(($item['qty'] / $totalSold) * 100) : 0;
+                    $item['percentage'] = $perc;
+                    $remaining         -= $perc;
+                }
             }
-            if (empty($menuData)) {
-                $menuData = [
-                    ['name' => 'Menu Utama', 'qty' => 45],
-                    ['name' => 'Menu Kedua', 'qty' => 30],
-                    ['name' => 'Lainnya',    'qty' => 25],
-                ];
-                $totalSold = 100;
-            }
+            unset($item);
         }
 
-        $remaining = 100;
-        foreach ($menuData as $idx => &$item) {
-            if ($idx === count($menuData) - 1) {
-                $item['percentage'] = max(0, $remaining);
-            } else {
-                $perc               = $totalSold > 0 ? round(($item['qty'] / $totalSold) * 100) : 0;
-                $item['percentage'] = $perc;
-                $remaining         -= $perc;
+        // ── Tren Pendapatan: 30 hari terakhir (Dapat di-filter) ──
+        $trendDays = $request->input('trend_days');
+        if (!in_array($trendDays, [7, 30])) {
+            $trendDays = 7;
+            $check7 = OrderItem::join('orders', 'order_items.order_id', '=', 'orders.order_id')
+                ->join('menus', 'order_items.menu_id', '=', 'menus.menu_id')
+                ->where('menus.stall_id', $stallId)
+                ->where('orders.payment_status', 'paid')
+                ->whereBetween('orders.created_at', [
+                    Carbon::now()->subDays(6)->startOfDay(),
+                    Carbon::now()->endOfDay(),
+                ])->count();
+            if ($check7 === 0) {
+                $trendDays = 30;
             }
-        }
-        unset($item);
-
-        // ── Tren Pendapatan: 30 hari terakhir ──
-        $trendDays = 7;
-        $check7 = OrderItem::join('orders', 'order_items.order_id', '=', 'orders.order_id')
-            ->join('menus', 'order_items.menu_id', '=', 'menus.menu_id')
-            ->where('menus.stall_id', $stallId)
-            ->where('orders.payment_status', 'paid')
-            ->whereBetween('orders.created_at', [
-                Carbon::now()->subDays(6)->startOfDay(),
-                Carbon::now()->endOfDay(),
-            ])->count();
-        if ($check7 === 0) {
-            $trendDays = 30;
+        } else {
+            $trendDays = (int) $trendDays;
         }
 
         $revenueRows = OrderItem::select(
@@ -201,6 +197,9 @@ class StallController extends Controller
 
         // ── Tabel Riwayat: 10 order selesai terbaru ──
         $completedOrders = Order::where('is_completed', true)
+            ->whereHas('orderItems.menu', function ($q) use ($stallId) {
+                $q->where('stall_id', $stallId);
+            })
             ->with([
                 'orderItems' => fn($q) => $q
                     ->whereHas('menu', fn($m) => $m->where('stall_id', $stallId))
@@ -215,7 +214,7 @@ class StallController extends Controller
         return view('staff.stall.dashboard', compact(
             'stall', 'totalOrders', 'totalRevenue', 'incomingOrdersCount',
             'totalMenus', 'availableMenus', 'menuData', 'totalSold', 'completedOrders',
-            'points', 'linePath', 'areaPath', 'highestIdx', 'trendLabel'
+            'points', 'linePath', 'areaPath', 'highestIdx', 'trendLabel', 'trendDays'
         ));
     }
 
@@ -229,23 +228,27 @@ class StallController extends Controller
 
         $orders = Order::where('is_completed', false)
             ->whereNotIn('payment_status', ['cancelled'])
+            ->whereHas('orderItems.menu', function ($q) use ($stallId) {
+                $q->where('stall_id', $stallId);
+            })
             ->with([
-                'orderItems' => fn($q) => $q->with('menu'),
+                'orderItems' => function ($q) use ($stallId) {
+                    $q->whereHas('menu', function ($m) use ($stallId) {
+                        $m->where('stall_id', $stallId);
+                    })->with('menu');
+                },
                 'table',
             ])
             ->orderBy('created_at', 'asc')
             ->get();
 
         foreach ($orders as $order) {
-            $stallItems   = $order->orderItems->filter(
-                fn($i) => $i->menu && $i->menu->stall_id == $stallId
-            );
+            $stallItems   = $order->orderItems;
+            $order->stall_total_price = $stallItems->sum('total_price');
             $itemStatuses = $stallItems->pluck('status');
 
-            if ($itemStatuses->contains('preparing')) {
-                $order->stall_status = 'DIMASAK';
-            } elseif ($itemStatuses->isNotEmpty() && $itemStatuses->every(fn($s) => $s === 'served')) {
-                $order->stall_status = 'DIMASAK';
+            if ($itemStatuses->isNotEmpty() && $itemStatuses->every(fn($s) => $s === 'served')) {
+                $order->stall_status = 'SELESAI';
             } else {
                 $cached = Cache::get("stall_{$stallId}_order_{$order->order_id}_status");
                 $order->stall_status = $cached ? strtoupper($cached) : 'MENUNGGU';

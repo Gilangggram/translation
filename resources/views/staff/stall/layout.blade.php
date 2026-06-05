@@ -1,10 +1,10 @@
 @extends('master')
 
 @section('body')
-    <div class="flex min-h-screen bg-[#F5F0EB]">
+    <div class="flex min-h-screen bg-[#F0E7D8]">
 
         <!-- Sidebar Section -->
-        <aside id="sidebar" class="fixed top-0 left-0 z-40 h-screen transition-transform -translate-x-full lg:translate-x-0 lg:sticky lg:shrink-0">
+        <aside id="sidebar" class="fixed top-0 left-0 z-40 h-screen w-56 transition-transform -translate-x-full lg:translate-x-0 lg:sticky lg:shrink-0">
             @include('components.Stall.Stallsidebar')
         </aside> 
         
