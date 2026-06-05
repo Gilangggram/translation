@@ -3,14 +3,23 @@
 namespace App\Console\Commands;
 
 use App\Models\TableQueue;
-use Illuminate\Console\Attributes\Description;
-use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
-#[Signature('tables:delete-expired-table-queue')]
-#[Description('Delete Expired Table Queue')]
 class DeleteExpiredTableQueue extends Command
 {
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'tables:delete-expired-table-queue';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Delete Expired Table Queue';
     /**
      * Execute the console command.
      */

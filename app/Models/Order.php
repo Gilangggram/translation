@@ -55,8 +55,8 @@ class Order extends Model
     public function checkAndCompleteOrder()
     {
         DB::transaction(function () {
-            $order = Order::lockForUpdate()->find($this->id);
-            $allServed = $order->items()->where('status', '!=', 'served')->doesntExist();
+            $order = Order::lockForUpdate()->find($this->order_id);
+            $allServed = $order->orderItems()->where('status', '!=', 'served')->doesntExist();
             
             if ($allServed && !$order->is_completed) {
                 $order->update(['is_completed' => true]);

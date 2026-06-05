@@ -43,7 +43,6 @@ class OrderService {
     {
         return Order::selectRaw('order_type, COUNT(*) as count')
             ->where('payment_status', 'paid')
-            ->where('is_completed', true)
             ->where('created_at', '>=', $this->getStartDate($timeframe))
             ->groupBy('order_type')
             ->get()

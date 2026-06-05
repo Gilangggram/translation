@@ -58,7 +58,7 @@
 
         const modalHTML = `
         <div id="custom-confirm-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs transition-opacity duration-300 opacity-0 select-none">
-            <div class="bg-white rounded-[16px] max-w-[360px] w-full p-6 shadow-[0_20px_50px_rgba(44,26,14,0.15)] border border-[#E8E0D8] transform scale-95 transition-transform duration-300">
+            <div class="bg-white rounded-none max-w-[360px] w-full p-6 shadow-[0_20px_50px_rgba(44,26,14,0.15)] border border-[#E8E0D8] transform scale-95 transition-transform duration-300">
                 ${iconHTML}
                 <h3 class="text-[16px] font-bold text-[#2C1A0E] text-center mb-2 leading-snug">${title}</h3>
                 <p class="text-[13px] text-[#80756A] text-center mb-6 leading-relaxed px-2">${message}</p>
@@ -133,13 +133,13 @@
         let locationHTML = '';
         if (order.table) {
             locationHTML = `
-            <div class="flex items-center gap-2 bg-[#FAF8F5] border border-[#E8E0D8] px-3 py-2 rounded-lg">
+            <div class="flex items-center gap-2 bg-[#FAF8F5] border border-[#E8E0D8] px-3 py-2 rounded-none">
                 <i class="ti ti-armchair text-[18px] text-[#3B1F0F]"></i>
                 <span class="text-[13px] font-bold text-[#2C1A0E]">Meja ${String(order.table.table_number).padStart(2, '0')}</span>
             </div>`;
         } else {
             locationHTML = `
-            <div class="flex items-center gap-2 bg-[#FAF8F5] border border-[#E8E0D8] px-3 py-2 rounded-lg">
+            <div class="flex items-center gap-2 bg-[#FAF8F5] border border-[#E8E0D8] px-3 py-2 rounded-none">
                 <i class="ti ti-shopping-bag text-[18px] text-[#3B1F0F]"></i>
                 <span class="text-[13px] font-bold text-[#2C1A0E]">Take Away</span>
             </div>`;
@@ -173,7 +173,7 @@
             let notesHTML = '';
             if (item.notes) {
                 notesHTML = `
-                <div class="flex items-center gap-1 mt-1 text-[11px] text-[#80756A] italic bg-[#FAF8F5] p-1.5 rounded border-l-2 border-[#C9A87C]">
+                <div class="flex items-center gap-1 mt-1 text-[11px] text-[#80756A] italic bg-[#FAF8F5] p-1.5 rounded-none border-l-2 border-[#C9A87C]">
                     <i class="ti ti-note text-[12px]"></i>
                     <span>"${item.notes}"</span>
                 </div>`;
@@ -197,7 +197,7 @@
 
         const modalHTML = `
         <div id="order-detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs transition-opacity duration-300 opacity-0 select-none">
-            <div class="bg-white rounded-[20px] max-w-[420px] w-full shadow-[0_24px_60px_rgba(44,26,14,0.18)] border border-[#E5DCCE] overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
+            <div class="bg-white rounded-none max-w-[420px] w-full shadow-[0_24px_60px_rgba(44,26,14,0.18)] border border-[#E5DCCE] overflow-hidden transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
                 
                 <div class="bg-[#3B1F0F] text-white p-5 flex justify-between items-center relative">
                     <div>
@@ -236,7 +236,7 @@
                         ${itemsHTML}
                     </div>
 
-                    <div class="bg-[#FAF8F5] border border-[#E8E0D8] rounded-xl p-4">
+                    <div class="bg-[#FAF8F5] border border-[#E8E0D8] rounded-none p-4">
                         <div class="flex justify-between items-center">
                             <span class="text-[13px] font-bold text-[#80756A]">Total Tagihan Stall</span>
                             <span class="text-[16px] font-black text-[#3B1F0F]">Rp ${subtotalFormatted}</span>
